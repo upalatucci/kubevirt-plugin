@@ -10,8 +10,11 @@ import { ConsoleRemotePlugin } from '@openshift-console/dynamic-plugin-sdk-webpa
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const KUBEVIRT_PLUGIN_PORT = process.env.KUBEVIRT_PLUGIN_PORT || 9001;
+const REACT_REFRESH = process.env.REACT_REFRESH;
 
 const config: webpack.Configuration = {
   mode: 'development',
@@ -24,7 +27,6 @@ const config: webpack.Configuration = {
   },
   devServer: {
     hot: true,
-    liveReload: true,
     port: KUBEVIRT_PLUGIN_PORT,
     client: {
       progress: true,
@@ -55,6 +57,9 @@ const config: webpack.Configuration = {
             options: {
               configFile: path.resolve(__dirname, 'tsconfig.json'),
               transpileOnly: true,
+              getCustomTransformers: () => ({
+                before: [...(REACT_REFRESH ? [ReactRefreshTypeScript()] : [])],
+              }),
             },
           },
         ],
@@ -111,6 +116,15 @@ const config: webpack.Configuration = {
     new CopyWebpackPlugin({
       patterns: [{ from: path.resolve(__dirname, 'locales'), to: 'locales' }],
     }),
+    ...(REACT_REFRESH
+      ? [
+          new ReactRefreshWebpackPlugin({
+            overlay: {
+              sockPort: KUBEVIRT_PLUGIN_PORT,
+            },
+          }),
+        ]
+      : []),
   ],
   devtool: 'source-map',
   optimization: {
