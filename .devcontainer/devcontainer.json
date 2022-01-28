@@ -1,10 +1,10 @@
 {
 	"name": "Openshift Console + Dynamic Plugin",
 	"dockerComposeFile": "docker-compose.yml",
-	"service": "app",
+	"service": "plugin",
 	"workspaceFolder": "/workspace",
 	"settings": {},
-	"postStartCommand": "yarn && yarn dev",
+	"postCreateCommand": "yarn",
 	"forwardPorts": [9000,9001],
 	"portsAttributes": {
 		"9000": {

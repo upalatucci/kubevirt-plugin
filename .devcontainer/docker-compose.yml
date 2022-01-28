@@ -1,15 +1,14 @@
 # console.env with the following values is required:
 # OC_URL
-# OC_PASS
 # OC_USER
+# OC_PASS
 # OC_PLUGIN_NAME
 version: '3.8'
-
 services:
-  app:
+  plugin:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: .devcontainer/Dockerfile.plugin
     depends_on:
       - console
     volumes:
@@ -25,6 +24,6 @@ services:
     restart: unless-stopped
     healthcheck:
         test: ["CMD", "oc", "status"]
-        interval: 30s
+        interval: 60s
         timeout: 10s
         retries: 5
