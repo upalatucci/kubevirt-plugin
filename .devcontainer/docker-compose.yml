@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    depends_on:
+      - console
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    network_mode: service:console
+
+  console:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile.console
+      args:
+        OC_URL: https://api.ironmaiden1.eng.lab.tlv.redhat.com:6443
+        OC_PASS: AmRgB-sDFyx-ZyVBa-uhUyK
+        OC_USER: kubeadmin
+        OC_PLUGIN_NAME: kubevirt-plugin
+    restart: unless-stopped
+    healthcheck:
+        test: ["CMD", "oc", "status"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
