@@ -1,8 +1,3 @@
-ARG OC_URL=https://api.ironmaiden1.eng.lab.tlv.redhat.com:6443
-ARG OC_PASS=AmRgB-sDFyx-ZyVBa-uhUyK
-ARG OC_USER=kubeadmin
-ARG OC_PLUGIN_NAME=kubevirt-plugin
-
 FROM openshift/origin-cli:latest AS cli
 FROM quay.io/coreos/tectonic-console-builder:v23 AS build
 RUN git clone https://github.com/openshift/console /console
@@ -19,5 +14,5 @@ ENV OC_PASS=$OC_PASS
 ENV OC_USER=$OC_USER
 ENV OC_PLUGIN_NAME=$OC_PLUGIN_NAME
 
-CMD eval "oc login https://api.ironmaiden1.eng.lab.tlv.redhat.com:6443 -u kubeadmin -pAmRgB-sDFyx-ZyVBa-uhUyK --insecure-skip-tls-verify" && source ./contrib/oc-environment.sh && ./bin/bridge --k8s-mode-off-cluster-thanos=$(oc -n openshift-monitoring get configmap sharing-config -o jsonpath='{.data.prometheusURL}') -plugins kubevirt-plugin=http://localhost:9001
+CMD eval "oc login $OC_URL -u $OC_USER -p $OC_PASS --insecure-skip-tls-verify" && source ./contrib/oc-environment.sh && ./bin/bridge --k8s-mode-off-cluster-thanos=$(oc -n openshift-monitoring get configmap sharing-config -o jsonpath='{.data.prometheusURL}') -plugins $OC_PLUGIN_NAME=http://localhost:9001
 

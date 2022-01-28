@@ -1,3 +1,8 @@
+# console.env with the following values is required:
+# OC_URL
+# OC_PASS
+# OC_USER
+# OC_PLUGIN_NAME
 version: '3.8'
 
 services:
@@ -16,11 +21,7 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile.console
-      args:
-        OC_URL: https://api.ironmaiden1.eng.lab.tlv.redhat.com:6443
-        OC_PASS: AmRgB-sDFyx-ZyVBa-uhUyK
-        OC_USER: kubeadmin
-        OC_PLUGIN_NAME: kubevirt-plugin
+    env_file: console.env
     restart: unless-stopped
     healthcheck:
         test: ["CMD", "oc", "status"]
