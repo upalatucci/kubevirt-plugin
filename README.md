@@ -8,8 +8,22 @@ for OpenShift Console.
 
 ## Local development
 
-1. `yarn dev` to serve the plugin with `webpack-dev-server`, generating output to `dist` directory
-2. run bridge with `-plugins kubevirt-plugin=http://localhost:9001`
+### Option 1 (recommended): VSCode Remote Container
+1. create `dev.env` file inside `.devcontainer` folder with the following values:
+```bash
+OC_PLUGIN_NAME=kubevirt-plugin
+OC_URL=
+OC_PASS=
+OC_USER=
+```
+2. Make sure you are connected to VPN and run the remote environment `(Ctrl+Shift+P) => Remote Containers: Open Folder in Container...`
+
+### Option 2 (local console):
+1. Run [console](https://github.com/openshift/console) in development mode 
+2. Run `yarn dev` to serve the plugin with `webpack-dev-server`, generating output to `dist` directory
+3. Run bridge with `-plugins kubevirt-plugin=http://localhost:9001`
+
+--------------------
 
 ## i18n
 
