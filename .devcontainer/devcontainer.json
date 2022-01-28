@@ -3,21 +3,18 @@
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspace",
-	// Set *default* container specific settings.json values on container create.
 	"settings": {},
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-azuretools.vscode-docker",
-		"dbaeumer.vscode-eslint",
-		"github.copilot",
-		"ms-vscode.vscode-typescript-next",
-		"esbenp.prettier-vscode",
-	],
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [
-		9000,
-		9001
-	],
+	"postStartCommand": "yarn && yarn dev",
+	"forwardPorts": [9000,9001],
+	"portsAttributes": {
+		"9000": {
+			"label": "Console",
+		},
+		"9001": {
+			"label": "Plugin Static files",
+			"onAutoForward": "silent"
+		}
+	},
 	"features": {
 		"github-cli": "latest",
 		"kubectl-helm-minikube": {
@@ -25,5 +22,11 @@
 			"helm": "latest",
 			"minikube": "latest"
 		}
-	}
+	},
+	"extensions": [
+		"dbaeumer.vscode-eslint",
+		"github.copilot",
+		"ms-vscode.vscode-typescript-next",
+		"esbenp.prettier-vscode",
+	],
 }
