@@ -10,6 +10,10 @@
 		"9000": {
 			"label": "Console",
 		},
+		"8080": {
+			"label": "x11-bridge",
+			"onAutoForward": "silent"
+		},
 		"9001": {
 			"label": "Plugin Static files",
 			"onAutoForward": "silent"
