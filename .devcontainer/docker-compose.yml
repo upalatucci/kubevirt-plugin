@@ -11,10 +11,16 @@ services:
       dockerfile: .devcontainer/Dockerfile.plugin
     depends_on:
       - console
+      - x11-bridge
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
     network_mode: service:console
+    environment:
+      DISPLAY: ":14"
+      LIBGL_ALWAYS_INDIRECT: 0
+    volumes_from:
+      - x11-bridge:rw
 
   console:
     build:
@@ -27,3 +33,17 @@ services:
         interval: 60s
         timeout: 10s
         retries: 5
+
+  x11-bridge: # https://github.com/JAremko/docker-x11-bridge
+    image: jare/x11-bridge
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      MODE: tcp
+      XPRA_HTML: "yes"
+      DISPLAY: ":14"
+      XPRA_TCP_PORT: "8080"
+      XPRA_PASSWORD: MUST_BE_SOMETHING # This password can be anything you want

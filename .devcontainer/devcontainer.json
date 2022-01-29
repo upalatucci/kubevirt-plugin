@@ -5,7 +5,7 @@
 	"workspaceFolder": "/workspace",
 	"settings": {},
 	"postCreateCommand": "yarn",
-	"forwardPorts": [9000,9001],
+	"forwardPorts": [8080,9000,9001],
 	"portsAttributes": {
 		"9000": {
 			"label": "Console",
