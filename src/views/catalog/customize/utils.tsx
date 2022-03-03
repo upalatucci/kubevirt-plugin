@@ -9,6 +9,10 @@ import { k8sCreate } from '@openshift-console/dynamic-plugin-sdk';
 
 import { generateVMName, getTemplateVirtualMachineObject } from '../utils/templateGetters';
 
+<<<<<<< HEAD
+=======
+import { DISK_SOURCE } from './components/DiskSource';
+>>>>>>> 0d6719e (useReducer for CustomizeForm)
 import { DEFAULT_NAMESPACE, NAME_INPUT_FIELD } from './constants';
 import { overrideTemplate } from './overrides';
 
@@ -53,6 +57,7 @@ export const processTemplate = async (
   template: V1Template,
   namespace: string,
   formData: FormData,
+  diskSourceCustomization: DISK_SOURCE,
 ): Promise<V1Template> => {
   const virtualMachineName = formData.get(NAME_INPUT_FIELD) as string;
 
@@ -64,7 +69,16 @@ export const processTemplate = async (
 
   const processedTemplate = await k8sCreate<V1Template>({
     model: ProcessedTemplatesModel,
+<<<<<<< HEAD
     data: overrideTemplate(template, namespace || DEFAULT_NAMESPACE, virtualMachineName),
+=======
+    data: overrideTemplate(
+      template,
+      namespace || DEFAULT_NAMESPACE,
+      virtualMachineName,
+      diskSourceCustomization,
+    ),
+>>>>>>> 0d6719e (useReducer for CustomizeForm)
     queryParams: {
       dryRun: 'All',
     },
@@ -88,14 +102,19 @@ export const getVirtualMachineNameField = (
 
 export type FormErrors = {
   parameters?: { [key: string]: string };
+  diskSource?: string;
+  volume?: string;
 };
 
 export const formValidation = (
   t: TFunction,
   formData: FormData,
   requiredFields: TemplateParameter[],
+  diskSource?: DISK_SOURCE,
 ): FormErrors | undefined => {
   let parametersError = undefined;
+  let diskSourceError = undefined;
+  let volumeError = undefined;
 
   const requiredFieldsNoValue = requiredFields.filter((field) => isFieldInvalid(field, formData));
   if (requiredFieldsNoValue.length > 0) {
@@ -105,8 +124,29 @@ export const formValidation = (
     }, {});
   }
 
-  if (parametersError)
+  if (
+    diskSource?.source?.pvc &&
+    (!diskSource.source.pvc.name || !diskSource.source.pvc.namespace)
+  ) {
+    diskSourceError = t('Please provide name and namespace for the pvc');
+  }
+
+  if (diskSource?.source?.http && diskSource.source.http.url.length === 0)
+    diskSourceError = t('Please provide a valid Image URL');
+
+  if (diskSource?.source?.registry && diskSource.source.registry.url.length === 0)
+    diskSourceError = t('Please provide a valid Container URL');
+
+  if (diskSource?.storage) {
+    const parsedStorage = parseInt(diskSource?.storage, 10);
+
+    if (isNaN(parsedStorage) || parsedStorage <= 0) volumeError = t('Volume size not valid');
+  }
+
+  if (diskSourceError || parametersError || volumeError)
     return {
+      volume: volumeError,
+      diskSource: diskSourceError,
       parameters: parametersError,
     };
 };

@@ -47,6 +47,8 @@ describe('Test CustomizeForm', () => {
     expect(screen.getAllByRole('textbox')).toHaveLength(
       mockVirtualMachineTemplate.parameters.length,
     );
+
+    expect(screen.queryByText('Storage')).not.toBeNull();
   });
 
   it('On submit create the vm', async () => {
