@@ -9,10 +9,7 @@ import { k8sCreate } from '@openshift-console/dynamic-plugin-sdk';
 
 import { generateVMName, getTemplateVirtualMachineObject } from '../utils/templateGetters';
 
-<<<<<<< HEAD
-=======
 import { DISK_SOURCE } from './components/DiskSource';
->>>>>>> 0d6719e (useReducer for CustomizeForm)
 import { DEFAULT_NAMESPACE, NAME_INPUT_FIELD } from './constants';
 import { overrideTemplate } from './overrides';
 
@@ -69,16 +66,12 @@ export const processTemplate = async (
 
   const processedTemplate = await k8sCreate<V1Template>({
     model: ProcessedTemplatesModel,
-<<<<<<< HEAD
-    data: overrideTemplate(template, namespace || DEFAULT_NAMESPACE, virtualMachineName),
-=======
     data: overrideTemplate(
       template,
       namespace || DEFAULT_NAMESPACE,
       virtualMachineName,
       diskSourceCustomization,
     ),
->>>>>>> 0d6719e (useReducer for CustomizeForm)
     queryParams: {
       dryRun: 'All',
     },

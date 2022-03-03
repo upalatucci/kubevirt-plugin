@@ -6,7 +6,9 @@ import {
   extractParameterNameFromMetadataName,
   FormErrors,
   getVirtualMachineNameField,
+  hasCustomizableDiskSource,
 } from '../../utils';
+import { DISK_SOURCE } from '../DiskSource';
 
 import { CustomizeFormActions } from './actions';
 
@@ -14,6 +16,10 @@ type State = {
   template: V1Template;
   loading: boolean;
   parametersErrors: FormErrors['parameters'];
+  diskSourceError: FormErrors['diskSource'];
+  volumeError: FormErrors['volume'];
+  diskSourceCustomization: DISK_SOURCE;
+  customizableDiskSource: boolean;
   requiredFields: TemplateParameter[];
   optionalFields: TemplateParameter[];
   apiError: string;
@@ -23,6 +29,10 @@ export const initialState: State = {
   template: undefined,
   loading: false,
   parametersErrors: undefined,
+  diskSourceError: undefined,
+  volumeError: undefined,
+  diskSourceCustomization: undefined,
+  customizableDiskSource: undefined,
   requiredFields: [],
   optionalFields: [],
   apiError: undefined,
@@ -54,6 +64,7 @@ export const initializeReducer = (template: V1Template, t: TFunction): State => 
     ...initialState,
     requiredFields,
     optionalFields,
+    customizableDiskSource: hasCustomizableDiskSource(template),
   };
 };
 
@@ -62,7 +73,8 @@ export type Action =
   | { type: CustomizeFormActions.Loading }
   | { type: CustomizeFormActions.Success }
   | { type: CustomizeFormActions.ApiError; payload: string }
-  | { type: CustomizeFormActions.SetParameter; payload: { value: string; parameter: string } };
+  | { type: CustomizeFormActions.SetParameter; payload: { value: string; parameter: string } }
+  | { type: CustomizeFormActions.SetDiskSource; payload: DISK_SOURCE };
 
 export default (state: State, action: Action): State => {
   switch (action.type) {
@@ -75,6 +87,8 @@ export default (state: State, action: Action): State => {
       return {
         ...state,
         parametersErrors: action.payload?.parameters,
+        diskSourceError: action.payload?.diskSource,
+        volumeError: action.payload?.volume,
         loading: false,
       };
     case CustomizeFormActions.Success:
@@ -87,6 +101,14 @@ export default (state: State, action: Action): State => {
         ...state,
         apiError: action.payload,
         loading: false,
+      };
+    case CustomizeFormActions.SetDiskSource:
+      return {
+        ...state,
+        diskSourceCustomization: action.payload,
+        parametersErrors: undefined,
+        diskSourceError: undefined,
+        volumeError: undefined,
       };
     default:
       return state;

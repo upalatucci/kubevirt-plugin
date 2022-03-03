@@ -3,25 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 
 import { V1Template } from '@kubevirt-ui/kubevirt-api/console';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
-import {
-  ActionGroup,
-  Button,
-  ExpandableSection,
-  ExpandableSectionToggle,
-  Flex,
-  FlexItem,
-  Form,
-  Popover,
-  PopoverPosition,
-  Stack,
-  StackItem,
-} from '@patternfly/react-core';
-import { HelpIcon } from '@patternfly/react-icons';
+import { ActionGroup, Button, ExpandableSection, Form } from '@patternfly/react-core';
 
 import { getTemplateVirtualMachineObject } from '../../../utils/templateGetters';
 import { useWizardVMContext } from '../../../utils/WizardVMContext';
 import { formValidation, getTemplateStorageQuantity, processTemplate } from '../../utils';
-import { DISK_SOURCE, DiskSource } from '../DiskSource';
+import { DISK_SOURCE } from '../DiskSource';
+import { ExpandableDiskSourceSection } from '../DiskSource/ExpandableDiskSourceSection';
 import { FieldGroup } from '../FieldGroup';
 
 import { CustomizeFormActions } from './actions';
@@ -37,7 +25,6 @@ export const CustomizeForm: React.FC<CustomizeFormProps> = ({ template }) => {
   const { updateVM } = useWizardVMContext();
   const { t } = useKubevirtTranslation();
   const [optionalFieldsExpanded, setOptionalFieldsExpanded] = React.useState(true);
-  const [storageFieldsExpanded, setStorageFieldsExpanded] = React.useState(true);
 
   const [state, dispatch] = React.useReducer(customizeFormReducer, null, () =>
     initializeReducer(template, t),
@@ -99,49 +86,12 @@ export const CustomizeForm: React.FC<CustomizeFormProps> = ({ template }) => {
       ))}
 
       {customizableDiskSource && (
-        <Stack hasGutter>
-          <StackItem>
-            <Flex>
-              <FlexItem spacer={{ default: 'spacerNone' }}>
-                <ExpandableSectionToggle
-                  isExpanded={storageFieldsExpanded}
-                  onToggle={() => setStorageFieldsExpanded(!storageFieldsExpanded)}
-                >
-                  {t('Storage')}
-                </ExpandableSectionToggle>
-              </FlexItem>
-              <FlexItem>
-                <Popover
-                  position={PopoverPosition.top}
-                  aria-label="Condition Popover"
-                  bodyContent={() => (
-                    <div>
-                      {t(
-                        'You can customize the templates storage by overriding the original parameters',
-                      )}
-                    </div>
-                  )}
-                >
-                  <HelpIcon />
-                </Popover>
-              </FlexItem>
-            </Flex>
-          </StackItem>
-          <StackItem>
-            <ExpandableSection
-              data-test-id="expandable-storage-section"
-              isExpanded={storageFieldsExpanded}
-              isDetached
-            >
-              <DiskSource
-                onChange={onDiskSourceChange}
-                error={diskSourceError}
-                volumeError={volumeError}
-                initialVolumeQuantity={getTemplateStorageQuantity(template)}
-              />
-            </ExpandableSection>
-          </StackItem>
-        </Stack>
+        <ExpandableDiskSourceSection
+          onChange={onDiskSourceChange}
+          error={diskSourceError}
+          volumeError={volumeError}
+          initialVolumeQuantity={getTemplateStorageQuantity(template)}
+        />
       )}
       {optionalFields && optionalFields.length > 0 && (
         <ExpandableSection
