@@ -86,7 +86,9 @@ const useVirtualMachineTemplatesActions: useVirtualMachineTemplatesActionsProps 
           {t('Edit boot source')} {editableBootSource === null && <Loading />}
         </>
       ),
-      description: !editableBootSource && t('Boot source cannot be edited'),
+      description: editableBootSource
+        ? t('This will change the Boot source that may be used by other templates')
+        : t('Boot source cannot be edited'),
       disabled: !editableBootSource,
       cta: () =>
         createModal(({ isOpen, onClose }) => (
