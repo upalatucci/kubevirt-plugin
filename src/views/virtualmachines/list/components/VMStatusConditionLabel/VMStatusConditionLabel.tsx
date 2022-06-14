@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { V1VirtualMachineCondition } from '@kubevirt-ui/kubevirt-api/kubevirt';
+import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { Label, LabelGroup, Popover, PopoverPosition } from '@patternfly/react-core';
 
 export const VMStatusConditionLabel: React.FC<V1VirtualMachineCondition> = React.memo(
@@ -29,6 +30,12 @@ VMStatusConditionLabel.displayName = 'VMStatusConditionLabel';
 
 export const VMStatusConditionLabelList: React.FC<{ conditions: V1VirtualMachineCondition[] }> =
   React.memo(({ conditions }) => {
+    const { t } = useKubevirtTranslation();
+
+    if (conditions?.length === 0) {
+      return <span className="text-muted">{t('No conditions')}</span>;
+    }
+
     return (
       <LabelGroup>
         {conditions?.map(({ message, reason, status, type }) => (
