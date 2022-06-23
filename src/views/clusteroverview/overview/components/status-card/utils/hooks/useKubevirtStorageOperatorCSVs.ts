@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 import * as _ from 'lodash';
 
 import { modelToGroupVersionKind } from '@kubevirt-ui/kubevirt-api/console';
@@ -10,19 +11,6 @@ import { useDeepCompareMemoize } from '@openshift-console/dynamic-plugin-sdk/lib
 import { useDebounceCallback } from '../../../utils/hooks/useDebounceCallback';
 import { LSO_NAME, ODF_OPERATOR_NAME } from '../constants';
 import { ClusterServiceVersionKind } from '../types';
-
-const watchedResources = {
-  installedCSVs: {
-    groupVersionKind: modelToGroupVersionKind(ClusterServiceVersionModel),
-    namespaced: true,
-    isList: true,
-  },
-  subscriptions: {
-    groupVersionKind: modelToGroupVersionKind(SubscriptionModel),
-    namespaced: false,
-    isList: true,
-  },
-};
 
 const getSubscriptionForOperator = (subscriptions, operatorName) => {
   return _.find(subscriptions, (sub) => sub?.metadata?.name === operatorName);
@@ -36,10 +24,25 @@ const getCSVForInstalledVersion = (
 };
 
 const useKubevirtStorageOperatorCSVs = () => {
+  const { ns } = useParams<{ ns: string }>();
   const [csvsLoaded, setCSVsLoaded] = React.useState<boolean>(false);
   const [csvsLoadError, setCSVsLoadError] = React.useState<string>(null);
   const [lsoCSV, setCSVForLSO] = React.useState(null);
   const [odfCSV, setCSVForODF] = React.useState(null);
+
+  const watchedResources = {
+    installedCSVs: {
+      groupVersionKind: modelToGroupVersionKind(ClusterServiceVersionModel),
+      namespace: ns,
+      isList: true,
+    },
+    subscriptions: {
+      groupVersionKind: modelToGroupVersionKind(SubscriptionModel),
+      namespace: ns,
+      isList: true,
+    },
+  };
+
   const resources = useK8sWatchResources<{ [key: string]: K8sResourceCommon[] }>(watchedResources);
 
   const updateResults = (updatedResources) => {

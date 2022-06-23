@@ -7,8 +7,6 @@ import { K8sResourceCommon, WatchK8sResults } from '@openshift-console/dynamic-p
 import { ResourceInventoryItem } from '@openshift-console/dynamic-plugin-sdk-internal';
 import { Stack, StackItem } from '@patternfly/react-core';
 
-import { getAllowedResourceData } from '../../../utils/utils';
-
 import './ResourcesSection.scss';
 
 export type ResourcesSectionProps = {
@@ -19,21 +17,7 @@ export type ResourcesSectionProps = {
 };
 
 const ResourcesSection: React.FC<ResourcesSectionProps> = ({ resources, isAdmin }) => {
-  const templates = React.useMemo(
-    () => (isAdmin ? resources?.vmTemplates : getAllowedResourceData(resources, TemplateModel)),
-    [resources, isAdmin],
-  );
-  const vms = React.useMemo(
-    () => (isAdmin ? resources?.vms : getAllowedResourceData(resources, VirtualMachineModel)),
-    [resources, isAdmin],
-  );
-  const nads = React.useMemo(
-    () =>
-      isAdmin
-        ? resources?.nads
-        : getAllowedResourceData(resources, NetworkAttachmentDefinitionModel),
-    [resources, isAdmin],
-  );
+  const { vmTemplates: templates, vms, nads } = resources;
 
   return (
     <Stack hasGutter className="kv-inventory-card__resources--container">

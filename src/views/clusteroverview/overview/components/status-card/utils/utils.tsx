@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { TFunction } from 'i18next';
 
-import { modelToGroupVersionKind } from '@kubevirt-ui/kubevirt-api/console';
-import NetworkAddonsConfigModel from '@kubevirt-ui/kubevirt-api/console/models/NetworkAddonsConfigModel';
 import {
   GreenCheckCircleIcon,
   HealthState,
@@ -10,7 +8,6 @@ import {
   PrometheusLabels,
   RedExclamationCircleIcon,
   ResolvedExtension,
-  WatchK8sResource,
   YellowExclamationTriangleIcon,
 } from '@openshift-console/dynamic-plugin-sdk';
 import { Extension, ExtensionTypeGuard } from '@openshift-console/dynamic-plugin-sdk/lib/types';
@@ -24,12 +21,6 @@ import BlueSyncIcon from './health-state-icons/BlueSyncIcon';
 import GrayUnknownIcon from './health-state-icons/GrayUnknownIcon';
 import { CLUSTER, OPERATOR_LABEL_KEY } from './constants';
 import { ClusterServiceVersionKind } from './types';
-
-export const NetworkAddonsConfigResource: WatchK8sResource = {
-  groupVersionKind: modelToGroupVersionKind(NetworkAddonsConfigModel),
-  namespaced: false,
-  isList: true,
-};
 
 export const getClusterNAC = (nacList) => nacList?.find((nac) => nac?.metadata?.name === CLUSTER);
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
+import { modelToGroupVersionKind } from '@kubevirt-ui/kubevirt-api/console';
+import NetworkAddonsConfigModel from '@kubevirt-ui/kubevirt-api/console/models/NetworkAddonsConfigModel';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import {
   DashboardsOverviewHealthSubsystem as DynamicDashboardsOverviewHealthSubsystem,
@@ -25,18 +27,22 @@ import NetworkingHealthItem from './utils/NetworkingHealthItem';
 import StorageHealthItem from './utils/storage-health-item/StorageHealthItem';
 import { VirtStatusItems } from './utils/types';
 import URLHealthItem from './utils/URLHealthItem';
-import { getClusterNAC, NetworkAddonsConfigResource } from './utils/utils';
+import { getClusterNAC } from './utils/utils';
 import VirtualizationAlerts from './utils/VirtualizationAlerts';
 
 const StatusCard = () => {
   const { t } = useKubevirtTranslation();
+  const { ns } = useParams<{ ns: string }>();
+
   const subsystems = useDashboardSubsystems<DynamicDashboardsOverviewHealthSubsystem>(
     isDynamicDashboardsOverviewHealthSubsystem,
   );
 
-  const [networkAddonsConfigList] = useK8sWatchResource<K8sResourceCommon[]>(
-    NetworkAddonsConfigResource,
-  );
+  const [networkAddonsConfigList] = useK8sWatchResource<K8sResourceCommon[]>({
+    groupVersionKind: modelToGroupVersionKind(NetworkAddonsConfigModel),
+    namespace: ns,
+    isList: true,
+  });
   const clusterNAC = getClusterNAC(networkAddonsConfigList);
 
   const virtStatusItems: VirtStatusItems = [];

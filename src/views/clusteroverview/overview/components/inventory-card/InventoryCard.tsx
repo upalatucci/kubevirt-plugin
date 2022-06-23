@@ -18,8 +18,7 @@ const InventoryCard: React.FC = () => {
   const { t } = useKubevirtTranslation();
   const isAdmin = useIsAdmin();
 
-  const useWatchedResourcesInventoryCard = useWatchedResourcesHook(isAdmin);
-  const watchedResources = useWatchedResourcesInventoryCard();
+  const watchedResources = useWatchedResourcesHook();
 
   const resources = useK8sWatchResources<{ [key: string]: K8sResourceCommon[] }>(watchedResources);
 

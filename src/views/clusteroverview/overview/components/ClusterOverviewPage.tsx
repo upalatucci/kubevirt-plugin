@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet';
 
+import { useIsAdmin } from '@kubevirt-utils/hooks/useIsAdmin';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { HorizontalNav, NavPage } from '@openshift-console/dynamic-plugin-sdk';
 
@@ -24,6 +25,7 @@ const overviewTabs: NavPage[] = [
 ];
 
 const ClusterOverviewPage: React.FC = () => {
+  const isAdmin = useIsAdmin();
   const { t } = useKubevirtTranslation();
   const title = t('Virtualization');
   const badge = (
@@ -36,7 +38,9 @@ const ClusterOverviewPage: React.FC = () => {
         <title>{title}</title>
       </Helmet>
       <PageHeader title={title} badge={badge} />
-      <HorizontalNav pages={overviewTabs} />
+      <HorizontalNav
+        pages={isAdmin ? overviewTabs : overviewTabs.filter((tab) => tab.href !== 'performance')}
+      />
     </>
   );
 };
