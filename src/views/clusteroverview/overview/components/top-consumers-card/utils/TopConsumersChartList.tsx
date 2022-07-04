@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { PrometheusEndpoint, usePrometheusPoll } from '@openshift-console/dynamic-plugin-sdk';
@@ -45,9 +46,10 @@ export const TopConsumersChartList: React.FC<TopConsumersChartListProps> = ({
   scope,
 }) => {
   const { t } = useKubevirtTranslation();
+  const { ns } = useParams<{ ns: string }>();
   const [query] = usePrometheusPoll({
     endpoint: PrometheusEndpoint.QUERY,
-    query: getTopConsumerQuery(metric.getValue(), scope.getValue(), numItems),
+    query: getTopConsumerQuery(metric.getValue(), scope.getValue(), numItems, undefined, ns),
     endTime: Date.now(),
   });
   const numQueryResults = query?.data?.result?.length;
