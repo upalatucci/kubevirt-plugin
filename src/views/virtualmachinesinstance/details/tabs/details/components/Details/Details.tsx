@@ -48,12 +48,16 @@ type DetailsProps = {
 const Details: React.FC<DetailsProps> = ({ vmi, pathname }) => {
   const { t } = useKubevirtTranslation();
   const [guestAgentData] = useGuestOS(vmi);
-  const [vm] = useK8sWatchResource<V1VirtualMachine>({
-    groupVersionKind: VirtualMachineModelGroupVersionKind,
-    name: vmi?.metadata?.name,
-    namespace: vmi?.metadata?.namespace,
-  });
-  const [sshService, sshServiceLoaded] = useSSHService(vmi);
+  const [vm] = useK8sWatchResource<V1VirtualMachine>(
+    vmi
+      ? {
+          groupVersionKind: VirtualMachineModelGroupVersionKind,
+          name: vmi?.metadata?.name,
+          namespace: vmi?.metadata?.namespace,
+        }
+      : null,
+  );
+  const [sshService, sshServiceLoaded] = useSSHService(vm);
 
   return (
     <div>

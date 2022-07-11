@@ -5,7 +5,6 @@ import { V1VirtualMachine } from '@kubevirt-ui/kubevirt-api/kubevirt';
 import useSSHService from '@kubevirt-utils/components/SSHAccess/useSSHService';
 import useSSHCommand from '@kubevirt-utils/components/UserCredentials/useSSHCommand';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
-import { useVMIAndPodsForVM } from '@kubevirt-utils/resources/vm/hooks';
 import { CardTitle, Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import { CopyIcon } from '@patternfly/react-icons';
 
@@ -22,9 +21,8 @@ const VirtualMachinesOverviewTabDetailsTitle: React.FC<
 > = ({ vm }) => {
   const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
   const { t } = useKubevirtTranslation();
-  const { vmi } = useVMIAndPodsForVM(vm?.metadata?.name, vm?.metadata?.namespace);
-  const [sshService] = useSSHService(vmi);
-  const { command } = useSSHCommand(vmi, sshService);
+  const [sshService] = useSSHService(vm);
+  const { command } = useSSHCommand(vm, sshService);
 
   const isMachinePaused = vm?.status?.printableStatus === printableVMStatus.Paused;
   const isMachineStopped = vm?.status?.printableStatus === printableVMStatus.Stopped;

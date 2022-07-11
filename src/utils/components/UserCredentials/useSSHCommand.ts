@@ -1,6 +1,6 @@
 import { IoK8sApiCoreV1Service } from '@kubevirt-ui/kubevirt-api/kubernetes';
-import { V1VirtualMachineInstance } from '@kubevirt-ui/kubevirt-api/kubevirt';
-import { getCloudInitCredentials } from '@kubevirt-utils/resources/vmi';
+import { V1VirtualMachine } from '@kubevirt-ui/kubevirt-api/kubevirt';
+import { getCloudInitCredentials } from '@kubevirt-utils/resources/vm';
 import { getSSHNodePort } from '@kubevirt-utils/utils/utils';
 
 export type useSSHCommandResult = {
@@ -10,12 +10,12 @@ export type useSSHCommandResult = {
 };
 
 const useSSHCommand = (
-  vmi: V1VirtualMachineInstance,
+  vm: V1VirtualMachine,
   sshService: IoK8sApiCoreV1Service,
 ): useSSHCommandResult => {
   const consoleHostname = window.location.hostname; // fallback to console hostname
 
-  const { user } = getCloudInitCredentials(vmi);
+  const { user } = getCloudInitCredentials(vm);
   const sshServicePort = getSSHNodePort(sshService);
 
   let command = 'ssh ';

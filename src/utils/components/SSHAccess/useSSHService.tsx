@@ -1,6 +1,6 @@
 import { ServiceModel } from '@kubevirt-ui/kubevirt-api/console';
 import { IoK8sApiCoreV1Service } from '@kubevirt-ui/kubevirt-api/kubernetes';
-import { V1VirtualMachineInstance } from '@kubevirt-ui/kubevirt-api/kubevirt';
+import { V1VirtualMachine } from '@kubevirt-ui/kubevirt-api/kubevirt';
 import { getServicesForVmi } from '@kubevirt-utils/resources/vmi';
 import { useK8sWatchResource } from '@openshift-console/dynamic-plugin-sdk';
 
@@ -8,14 +8,18 @@ import { SSH_PORT } from './constants';
 
 export type UseSSHServiceReturnType = [service: IoK8sApiCoreV1Service, loaded: boolean];
 
-const useSSHService = (vmi: V1VirtualMachineInstance): UseSSHServiceReturnType => {
-  const [services, servicesLoaded, servicesError] = useK8sWatchResource<IoK8sApiCoreV1Service[]>({
-    kind: ServiceModel.kind,
-    isList: true,
-    namespace: vmi?.metadata?.namespace,
-  });
+const useSSHService = (vm: V1VirtualMachine): UseSSHServiceReturnType => {
+  const [services, servicesLoaded, servicesError] = useK8sWatchResource<IoK8sApiCoreV1Service[]>(
+    vm
+      ? {
+          kind: ServiceModel.kind,
+          isList: true,
+          namespace: vm?.metadata?.namespace,
+        }
+      : null,
+  );
 
-  const vmiServices = getServicesForVmi(services, vmi);
+  const vmiServices = getServicesForVmi(services, vm?.spec?.template?.metadata?.labels);
 
   const sshVMIService = vmiServices.find((service) =>
     service?.spec?.ports?.find((port) => parseInt(port.targetPort, 10) === SSH_PORT),
