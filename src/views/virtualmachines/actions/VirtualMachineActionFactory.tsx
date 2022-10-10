@@ -101,9 +101,9 @@ export const VirtualMachineActionFactory = {
       id: 'vm-action-migrate',
       disabled:
         vm?.status?.printableStatus !== Running ||
-        !!vm?.status?.conditions?.find(
+        Boolean(vm?.status?.conditions?.find(
           ({ type, status }) => type === 'LiveMigratable' && status === 'False',
-        ),
+        )),
       label: t('Migrate'),
       cta: () => migrateVM(vm),
       accessReview: asAccessReview(VirtualMachineModel, vm, 'patch'),
@@ -117,11 +117,11 @@ export const VirtualMachineActionFactory = {
   ): Action => {
     return {
       id: 'vm-action-cancel-migrate',
-      disabled: !vmim || !!vmim?.metadata?.deletionTimestamp,
+      disabled: !vmim || Boolean(vmim?.metadata?.deletionTimestamp),
       label: t('Cancel migration'),
       cta: () => cancelMigration(vmim),
       accessReview: asAccessReview(VirtualMachineModel, vm, 'patch'),
-      description: !!vmim?.metadata?.deletionTimestamp && t('Canceling ongoing migration'),
+      description: Boolean(vmim?.metadata?.deletionTimestamp) && t('Canceling ongoing migration'),
     };
   },
   clone: (

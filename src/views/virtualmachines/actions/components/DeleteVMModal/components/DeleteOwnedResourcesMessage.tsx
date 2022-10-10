@@ -39,14 +39,14 @@ const DeleteOwnedResourcesMessage: React.FC<DeleteOwnedResourcesMessageProps> = 
 
   return (
     <>
-      {!!diskCount && (
+      {Boolean(diskCount) && (
         <StackItem>
           {t(
             'The following resources will be deleted along with this VirtualMachine. Unchecked items will not be deleted.',
           )}
         </StackItem>
       )}
-      {!!diskCount && (
+      {Boolean(diskCount) && (
         <StackItem>
           <Checkbox
             id="delete-owned-resources"

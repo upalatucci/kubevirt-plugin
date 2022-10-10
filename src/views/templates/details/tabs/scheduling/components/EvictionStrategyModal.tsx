@@ -21,7 +21,7 @@ const EvictionStrategyModal: React.FC<EvictionStrategyModalProps> = ({
   onSubmit,
 }) => {
   const { t } = useKubevirtTranslation();
-  const [checked, setChecked] = React.useState<boolean>(!!getEvictionStrategy(template));
+  const [checked, setChecked] = React.useState<boolean>(Boolean(getEvictionStrategy(template)));
 
   const updatedTemplate = React.useMemo(() => {
     return produce<V1Template>(template, (templateDraft: V1Template) => {

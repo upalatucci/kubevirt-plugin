@@ -112,7 +112,7 @@ const VirtualMachineDetailsRightGridLayout: React.FC<VirtualMachineDetailsRightG
         />
         <VirtualMachineDescriptionItem
           descriptionData={vmDetailsRightGridObj?.sshAccess}
-          isEdit={!!vmi}
+          isEdit={Boolean(vmi)}
           onEditClick={() =>
             createModal(({ isOpen, onClose }) => (
               <SSHAccessModal

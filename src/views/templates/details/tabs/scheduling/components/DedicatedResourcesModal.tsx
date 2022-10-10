@@ -52,7 +52,7 @@ const DedicatedResourcesModal: React.FC<DedicatedResourcesModalProps> = ({
     );
     return {
       qualifiedNodes: filteredNodes,
-      hasNodes: !!filteredNodes?.length,
+      hasNodes: Boolean(filteredNodes?.length),
     };
   }, [nodes]);
 
