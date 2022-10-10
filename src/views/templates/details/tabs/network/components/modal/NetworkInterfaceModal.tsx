@@ -41,7 +41,7 @@ const NetworkInterfaceModal: React.FC<NetworkInterfaceModalProps> = ({
 
   const [submitDisabled, setSubmitDisabled] = React.useState(true);
 
-  const onSubmit = React.useCallback(async () => {
+  const onSubmit = React.useCallback( () => {
     const resultNetwork: V1Network = {
       name: nicName,
     };
