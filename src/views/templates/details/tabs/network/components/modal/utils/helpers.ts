@@ -11,7 +11,7 @@ export const generateNicName = () => {
 };
 
 export const podNetworkExists = (vm: V1VirtualMachine): boolean =>
-  !!vm?.spec?.template?.spec?.networks?.find((network) => typeof network.pod === 'object');
+  Boolean(vm?.spec?.template?.spec?.networks?.find((network) => typeof network.pod === 'object'));
 
 export const networkNameStartWithPod = (networkName: string): boolean =>
   networkName?.startsWith('Pod');
