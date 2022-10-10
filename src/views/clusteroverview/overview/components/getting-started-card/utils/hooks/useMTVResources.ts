@@ -9,7 +9,7 @@ import { HTTP_REG_EXP, MTV_OPERATOR, MTV_ROUTE_NAME, PackageManifestKind } from 
 
 const checkResourcesLoaded = (resources: WatchK8sResults<{ [p: string]: K8sResourceCommon[] }>) =>
   Object.keys(resources).length > 0 &&
-  Object.values(resources).every((value) => value.loaded || !!value.loadError);
+  Object.values(resources).every((value) => value.loaded || Boolean(value.loadError));
 
 const getMTVLink = (route) => {
   const rawLink = route?.spec?.host;

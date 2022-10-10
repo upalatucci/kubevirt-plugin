@@ -30,7 +30,7 @@ const URLHealthItem: React.FC<URLHealthItemProps> = ({ subsystem }) => {
   const [models] = useK8sModels();
   const modelExists =
     subsystem?.additionalResource &&
-    !!models?.[(subsystem?.additionalResource as FirehoseResource).kind];
+    Boolean(models?.[(subsystem?.additionalResource as FirehoseResource).kind]);
 
   const resourceObj = modelExists ? (subsystem?.additionalResource as WatchK8sResource) : null;
   const [resource, resourceLoaded, resourceError] = useK8sWatchResource(resourceObj);

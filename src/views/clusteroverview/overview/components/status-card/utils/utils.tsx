@@ -47,7 +47,7 @@ export const filterSubsystems = <E extends Extension>(
       const subsystem = s as unknown as ResolvedExtension<E>;
       return subsystem?.properties?.additionalResource &&
         !subsystem?.properties?.additionalResource?.optional
-        ? !!k8sModels[subsystem?.properties?.additionalResource?.kind]
+        ? Boolean(k8sModels[subsystem?.properties?.additionalResource?.kind])
         : true;
     }
     return true;

@@ -35,7 +35,7 @@ export const useCloudInit = (vm: V1VirtualMachine): UseCloudInitValues => {
     convertYAMLToNetworkDataObject(cloudInit?.networkData ?? ''),
   );
   const [enableNetworkData, setEnableNetworkData] = React.useState<boolean>(
-    !!networkData?.name || !!networkData?.address || !!networkData?.gateway,
+    Boolean(networkData?.name) || Boolean(networkData?.address) || Boolean(networkData?.gateway),
   );
 
   const updateUserField = (key: keyof CloudInitUserData, value: string) => {

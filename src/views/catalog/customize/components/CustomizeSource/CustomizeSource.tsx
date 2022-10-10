@@ -108,7 +108,7 @@ export const CustomizeSource: React.FC<CustomizeSourceProps> = ({
         registrySourceHelperText={registrySourceHelperText}
         relevantUpload={diskUpload}
         data-test-id="disk-boot-source"
-        defaultsAsBlank={!!cdSource}
+        defaultsAsBlank={Boolean(cdSource)}
       />
       <Divider className="divider" />
       <FormGroup label={t('Drivers')} fieldId="customize-cdrom-drivers">

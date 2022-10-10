@@ -21,7 +21,7 @@ export const getServicePort = (
   service: IoK8sApiCoreV1Service,
   targetPort: number,
 ): IoK8sApiCoreV1ServicePort =>
-  service?.spec?.ports?.find((servicePort) => targetPort === +servicePort.targetPort);
+  service?.spec?.ports?.find((servicePort) => targetPort === Number(servicePort.targetPort));
 
 const findVMServiceWithPort = (
   vmi: V1VirtualMachineInstance,
@@ -31,7 +31,7 @@ const findVMServiceWithPort = (
   allServices?.find(
     (service) =>
       vmi?.metadata?.name === service?.spec?.selector?.[TEMPLATE_VM_NAME_LABEL] &&
-      !!getServicePort(service, targetPort),
+      Boolean(getServicePort(service, targetPort)),
   );
 
 export const findRDPServiceAndPort = (

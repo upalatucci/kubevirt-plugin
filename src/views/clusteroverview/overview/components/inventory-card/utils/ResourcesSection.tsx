@@ -42,7 +42,7 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({ resources, isAdmin 
           resources={vms?.data as K8sResourceCommon[]}
           kind={VirtualMachineModel}
           isLoading={vms?.loaded === false}
-          error={!!vms?.loadError}
+          error={Boolean(vms?.loadError)}
           dataTest="kv-inventory-card--vms"
           showLink={isAdmin}
         />
@@ -52,7 +52,7 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({ resources, isAdmin 
           resources={templates?.data}
           kind={TemplateModel}
           isLoading={templates?.loaded === false}
-          error={!!templates?.loadError}
+          error={Boolean(templates?.loadError)}
           dataTest="kv-inventory-card--vm-templates"
           basePath={`/k8s/all-namespaces/templates`}
           showLink={isAdmin}
@@ -63,7 +63,7 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({ resources, isAdmin 
           resources={resources?.nodes?.data}
           kind={NodeModel}
           isLoading={resources?.nodes?.loaded === false}
-          error={!!resources?.nodes?.loadError}
+          error={Boolean(resources?.nodes?.loadError)}
           dataTest="kv-inventory-card--nodes"
           showLink={isAdmin}
         />
@@ -75,7 +75,7 @@ const ResourcesSection: React.FC<ResourcesSectionProps> = ({ resources, isAdmin 
           title="Network"
           titlePlural="Networks"
           isLoading={nads?.loaded === false}
-          error={!!nads?.loadError}
+          error={Boolean(nads?.loadError)}
           dataTest="kv-inventory-card--nads"
           showLink={isAdmin}
         />

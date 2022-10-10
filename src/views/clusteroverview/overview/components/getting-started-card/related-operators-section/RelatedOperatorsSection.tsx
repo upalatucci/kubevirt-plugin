@@ -48,7 +48,7 @@ const RelatedOperatorsSection: React.FC = () => {
       external: !isAdmin,
       secondaryLinkText: t('Launch Migration Toolkit for Virtualization web console'),
       secondaryLinkHref: mtvLink,
-      showSecondaryLink: mtvLoaded && !!mtvLink,
+      showSecondaryLink: mtvLoaded && Boolean(mtvLink),
       secondaryLinkExternal: true,
     },
   ];

@@ -87,9 +87,9 @@ const useWizardDisksTableData: UseDisksTableDisks = (vm: V1VirtualMachine) => {
         namespace: device?.pvc?.metadata?.namespace,
         isBootDisk: device?.disk?.name === getBootDisk(vm)?.name,
         isEnvDisk:
-          !!device?.volume?.configMap ||
-          !!device?.volume?.secret ||
-          !!device?.volume?.serviceAccount,
+          Boolean(device?.volume?.configMap) ||
+          Boolean(device?.volume?.secret) ||
+          Boolean(device?.volume?.serviceAccount),
       };
     });
   }, [pvcs, t, vm, vmDataVolumeTemplates, vmDisks, vmVolumes]);

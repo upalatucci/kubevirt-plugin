@@ -26,9 +26,9 @@ export const getMemorySize = (
 ): { size: number; unit: string } => {
   if (typeof sourceMemory === 'string') {
     const [size, unit] = sourceMemory?.split?.(/(\d+)/g).filter(Boolean);
-    return { size: +size || 0, unit: unitsConvertor[unit] };
+    return { size: Number(size) || 0, unit: unitsConvertor[unit] };
   }
-  return { size: +sourceMemory?.size || 0, unit: unitsConvertor[sourceMemory?.unit] };
+  return { size: Number(sourceMemory?.size) || 0, unit: unitsConvertor[sourceMemory?.unit] };
 };
 
 export const memorySizesTypes = [GI, MI, TI];

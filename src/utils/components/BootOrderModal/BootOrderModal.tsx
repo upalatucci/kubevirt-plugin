@@ -33,7 +33,7 @@ export const BootOrderModal: React.FC<{
     transformedDevices.sort((a, b) => a.value.bootOrder - b.value.bootOrder),
   );
   const [isEditMode, setIsEditMode] = React.useState(
-    transformedDevices.some((device) => !!device.value.bootOrder),
+    transformedDevices.some((device) => Boolean(device.value.bootOrder)),
   );
 
   const updatedVirtualMachine = produce<V1VirtualMachine>(vm, (draftVM) => {

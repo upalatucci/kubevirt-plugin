@@ -29,7 +29,7 @@ const EvictionStrategyModal: React.FC<EvictionStrategyModalProps> = ({
 }) => {
   const { t } = useKubevirtTranslation();
   const [checked, setChecked] = React.useState<boolean>(
-    !!vm?.spec?.template?.spec?.evictionStrategy,
+    Boolean(vm?.spec?.template?.spec?.evictionStrategy),
   );
 
   const updatedVirtualMachine = React.useMemo(() => {

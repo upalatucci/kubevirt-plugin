@@ -116,7 +116,7 @@ const WizardScriptsTab: WizardTab = ({ vm, updateVM, tabsData, updateTabsData })
               testId="wizard-sysprep"
               title={t('Sysprep')}
               description={
-                <SysprepDescription hasAutoUnattend={!!autoUnattend} hasUnattend={!!unattend} />
+                <SysprepDescription hasAutoUnattend={Boolean(autoUnattend)} hasUnattend={Boolean(unattend)} />
               }
               isEdit
               showEditOnTitle
