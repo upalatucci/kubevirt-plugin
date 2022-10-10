@@ -86,7 +86,7 @@ export const hasEditableBootSource = (dataSource: V1beta1DataSource): boolean =>
 const waitPVCGetDeleted = (name: string, namespace: string): Promise<void> => {
   let timesPVCNotDeleted = 0;
   return new Promise((resolve, reject) => {
-    const pvcInterval = setInterval(async () => {
+    const pvcInterval = setInterval( () => {
       getPVC(name, namespace)
         .then(() => {
           timesPVCNotDeleted++;

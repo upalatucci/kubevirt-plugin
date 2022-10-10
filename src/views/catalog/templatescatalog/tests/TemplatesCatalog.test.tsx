@@ -51,7 +51,7 @@ jest.mock('@kubevirt-utils/resources/template/hooks/useVmTemplateSource', () => 
 
 afterEach(cleanup);
 
-test('TemplatesCatalog', async () => {
+test('TemplatesCatalog', () => {
   const { getByTestId, queryByTestId, getByText } = render(
     <TemplatesCatalog
       history={{} as any}

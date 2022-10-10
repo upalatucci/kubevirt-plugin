@@ -72,7 +72,7 @@ export const getUploadProxyURL = (config: CDIConfig) => config?.status?.uploadPr
 export const getUploadURL = (uploadProxyURL: string) =>
   `https://${uploadProxyURL}/v1beta1/upload-form-async`;
 
-export const killUploadPVC = async (name: string, namespace: string) => {
+export const killUploadPVC = (name: string, namespace: string) => {
   return k8sDelete({ model: DataVolumeModel, resource: { metadata: { name, namespace } } });
 };
 

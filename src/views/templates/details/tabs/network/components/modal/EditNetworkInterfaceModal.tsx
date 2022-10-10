@@ -45,7 +45,7 @@ const EditNetworkInterfaceModal: React.FC<EditNetworkInterfaceModalProps> = ({
 
   const [submitDisabled, setSubmitDisabled] = React.useState(true);
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     const resultNetwork: V1Network = {
       name: nicName,
     };

@@ -23,7 +23,7 @@ export const _CloudInitEditor: React.FC<CloudInitEditorProps> = ({ cloudInitVolu
   const [saved, setSaved] = React.useState<boolean>(false);
   const yamlEditorRef = React.useRef<HTMLDivElement>();
 
-  const onSaveClick = async (yaml: string) => {
+  const onSaveClick = (yaml: string) => {
     onSave(yaml);
     setSaved(true);
   };

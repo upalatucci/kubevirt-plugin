@@ -75,19 +75,19 @@ export const VMActionRequest = async (
   }
 };
 
-export const startVM = async (vm: V1VirtualMachine) =>
+export const startVM = (vm: V1VirtualMachine) =>
   VMActionRequest(vm, VMActionType.Start, VirtualMachineModel);
-export const stopVM = async (vm: V1VirtualMachine) =>
+export const stopVM = (vm: V1VirtualMachine) =>
   VMActionRequest(vm, VMActionType.Stop, VirtualMachineModel);
-export const restartVM = async (vm: V1VirtualMachine) =>
+export const restartVM = (vm: V1VirtualMachine) =>
   VMActionRequest(vm, VMActionType.Restart, VirtualMachineModel);
-export const pauseVM = async (vm: V1VirtualMachine) =>
+export const pauseVM = (vm: V1VirtualMachine) =>
   VMActionRequest(vm, VMActionType.Pause, VirtualMachineInstanceModel);
-export const unpauseVM = async (vm: V1VirtualMachine) =>
+export const unpauseVM = (vm: V1VirtualMachine) =>
   VMActionRequest(vm, VMActionType.Unpause, VirtualMachineInstanceModel);
-export const addPersistentVolume = async (vm: V1VirtualMachine, body: V1AddVolumeOptions) =>
+export const addPersistentVolume = (vm: V1VirtualMachine, body: V1AddVolumeOptions) =>
   VMActionRequest(vm, VMActionType.AddVolume, VirtualMachineModel, body);
-export const removeVolume = async (vm: V1VirtualMachine, body: V1RemoveVolumeOptions) =>
+export const removeVolume = (vm: V1VirtualMachine, body: V1RemoveVolumeOptions) =>
   VMActionRequest(vm, VMActionType.RemoveVolume, VirtualMachineModel, body);
 export const migrateVM = async (vm: V1VirtualMachine) => {
   const { name, namespace } = vm?.metadata;
