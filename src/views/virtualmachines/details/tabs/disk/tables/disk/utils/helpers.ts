@@ -12,5 +12,5 @@ export const isHotplugVolume = (
     volumeStatus?.hotplugVolume ||
     vmVolume?.dataVolume?.hotpluggable ||
     vmVolume?.persistentVolumeClaim?.hotpluggable;
-  return !!hotplugStatus;
+  return Boolean(hotplugStatus);
 };

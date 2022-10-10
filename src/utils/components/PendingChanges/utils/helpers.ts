@@ -183,8 +183,8 @@ export const getChangedEvictionStrategy = (
   if (isEmpty(vm) || isEmpty(vmi)) {
     return false;
   }
-  const vmEvictionStrategy = !!vm?.spec?.template?.spec?.evictionStrategy;
-  const vmiEvictionStrategy = !!vmi?.spec?.evictionStrategy;
+  const vmEvictionStrategy = Boolean(vm?.spec?.template?.spec?.evictionStrategy);
+  const vmiEvictionStrategy = Boolean(vmi?.spec?.evictionStrategy);
   return vmEvictionStrategy !== vmiEvictionStrategy || currentSelection !== vmiEvictionStrategy;
 };
 
@@ -236,8 +236,8 @@ export const getChangedDescheduler = (
     return false;
   }
 
-  const vmDescheduler = !!vm?.spec?.template?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL];
-  const vmiDescheduler = !!vmi?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL];
+  const vmDescheduler = Boolean(vm?.spec?.template?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL]);
+  const vmiDescheduler = Boolean(vmi?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL]);
 
   return vmDescheduler !== vmiDescheduler || currentSelection !== vmiDescheduler;
 };
@@ -252,7 +252,7 @@ export const getChangedCloudInit = (
   const vmCloudInit = getCloudInitData(getCloudInitVolume(vm)) || {};
   const vmiCloudInit =
     getCloudInitData(
-      vmi?.spec?.volumes?.find((vol) => !!vol.cloudInitConfigDrive || !!vol.cloudInitNoCloud),
+      vmi?.spec?.volumes?.find((vol) => Boolean(vol.cloudInitConfigDrive) || Boolean(vol.cloudInitNoCloud)),
     ) || {};
 
   return (

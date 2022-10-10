@@ -79,7 +79,7 @@ const TemplatesCatalog: React.FC<RouteComponentProps<{ ns: string }>> = ({
       )}
       <TemplatesCatalogDrawer
         namespace={namespace ?? 'default'}
-        isOpen={!!selectedTemplate}
+        isOpen={Boolean(selectedTemplate)}
         template={selectedTemplate}
         onClose={() => setSelectedTemplate(undefined)}
       />

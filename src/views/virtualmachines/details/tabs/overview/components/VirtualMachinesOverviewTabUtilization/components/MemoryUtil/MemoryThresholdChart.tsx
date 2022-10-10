@@ -50,7 +50,7 @@ const MemoryThresholdChart: React.FC<MemoryThresholdChartProps> = ({ timespan, v
   const memoryAvailableBytes = xbytes.parseSize(`${memory?.size} ${memory?.unit}B`);
 
   const chartData = prometheusMemoryData?.map(([, item], index) => {
-    return { x: index, y: +item, name: 'Memory used' };
+    return { x: index, y: Number(item), name: 'Memory used' };
   });
 
   const thresholdLine = new Array(chartData?.length || 0)

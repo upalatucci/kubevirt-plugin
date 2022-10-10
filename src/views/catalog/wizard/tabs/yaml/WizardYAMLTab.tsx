@@ -26,7 +26,7 @@ const WizardYAMLTab: WizardTab = ({ vm, updateVM, setDisableVmCreate }) => {
   };
 
   React.useEffect(() => {
-    setDisableVmCreate(!!error);
+    setDisableVmCreate(Boolean(error));
     return () => setDisableVmCreate(false);
   }, [error, setDisableVmCreate]);
 

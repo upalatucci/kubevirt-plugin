@@ -69,7 +69,7 @@ export const usePendingChanges = (
   const evictionStrategyChanged = getChangedEvictionStrategy(
     vm,
     vmi,
-    !!vm?.spec?.template?.spec?.evictionStrategy,
+    Boolean(vm?.spec?.template?.spec?.evictionStrategy),
   );
   const nodeSelectorChanged = getChangedNodeSelector(vm, vmi);
   const tolerationsChanged = getChangedTolerations(vm, vmi);
@@ -77,7 +77,7 @@ export const usePendingChanges = (
   const deschedulerChanged = getChangedDescheduler(
     vm,
     vmi,
-    !!vm?.spec?.template?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL] || false,
+    Boolean(vm?.spec?.template?.metadata?.annotations?.[DESCHEDULER_EVICT_LABEL]) || false,
   );
   const cloudInitChanged = getChangedCloudInit(vm, vmi);
   const sshServiceChanged = getChangedAuthorizedSSHKey(vm, vmi);

@@ -41,7 +41,7 @@ export const TemplatesCatalogDrawerFooter: React.FC<TemplateCatalogDrawerFooterP
   } = useVmTemplateSource(template);
   const [processedTemplate, processedTemplateLoaded] = useProcessedTemplate(template, namespace);
 
-  const canQuickCreate = !!processedTemplate && isBootSourceAvailable;
+  const canQuickCreate = Boolean(processedTemplate) && isBootSourceAvailable;
   const loaded = bootSourceLoaded && processedTemplateLoaded;
 
   // update template's boot source storageClass if it's available

@@ -142,12 +142,12 @@ const CPUMemoryModal: React.FC<CPUMemoryModalProps> = ({ vm, isOpen, onClose, on
           </Title>
           <NumberInput
             value={cpuCores}
-            onMinus={() => setCpuCores((cpus) => +cpus - 1)}
+            onMinus={() => setCpuCores((cpus) => Number(cpus) - 1)}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const newNumber = +e?.target?.value;
+              const newNumber = Number(e?.target?.value);
               setCpuCores((cpus) => (newNumber > 0 ? newNumber : cpus));
             }}
-            onPlus={() => setCpuCores((cpus) => +cpus + 1)}
+            onPlus={() => setCpuCores((cpus) => Number(cpus) + 1)}
             inputName="cpu-input"
             min={1}
           />
@@ -158,12 +158,12 @@ const CPUMemoryModal: React.FC<CPUMemoryModalProps> = ({ vm, isOpen, onClose, on
           </Title>
           <NumberInput
             value={memory}
-            onMinus={() => setMemory((mem) => +mem - 1)}
+            onMinus={() => setMemory((mem) => Number(mem) - 1)}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const newNumber = +e?.target?.value;
+              const newNumber = Number(e?.target?.value);
               setMemory((mem) => (newNumber > 0 ? newNumber : mem));
             }}
-            onPlus={() => setMemory((mem) => +mem + 1)}
+            onPlus={() => setMemory((mem) => Number(mem) + 1)}
             inputName="memory-input"
             min={1}
           />

@@ -29,7 +29,7 @@ export const BootOrderModalBody: React.FC<{
   changeEditMode: (isEditMode: boolean) => void;
 }> = ({ devices, isEditMode, onChange, changeEditMode }) => {
   const { t } = useKubevirtTranslation();
-  const bootableDevices = devices.filter((device) => !!device.value.bootOrder);
+  const bootableDevices = devices.filter((device) => Boolean(device.value.bootOrder));
 
   const reorder = (
     list: BootableDeviceType[],

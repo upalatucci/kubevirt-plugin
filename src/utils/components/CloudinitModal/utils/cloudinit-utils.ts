@@ -14,10 +14,10 @@ import { k8sCreate, K8sResourceCommon } from '@openshift-console/dynamic-plugin-
 import { CLOUD_CONFIG_HEADER } from './consts';
 
 export const deleteObjBlankValues = (obj: object) =>
-  Object.fromEntries(Object.entries(obj).filter(([, v]) => !!v));
+  Object.fromEntries(Object.entries(obj).filter(([, v]) => Boolean(v)));
 
 export const getCloudInitVolume = (vm: V1VirtualMachine): V1Volume => {
-  return getVolumes(vm)?.find((vol) => !!vol.cloudInitConfigDrive || !!vol.cloudInitNoCloud);
+  return getVolumes(vm)?.find((vol) => Boolean(vol.cloudInitConfigDrive) || Boolean(vol.cloudInitNoCloud));
 };
 
 export const getCloudInitData = (cloudInitVolume: V1Volume): V1CloudInitConfigDriveSource => {

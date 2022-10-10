@@ -46,7 +46,7 @@ const DedicatedResourcesModal: React.FC<DedicatedResourcesModalProps> = ({
 }) => {
   const { t } = useKubevirtTranslation();
   const [checked, setChecked] = React.useState<boolean>(
-    !!vm?.spec?.template?.spec?.domain?.cpu?.dedicatedCpuPlacement,
+    Boolean(vm?.spec?.template?.spec?.domain?.cpu?.dedicatedCpuPlacement),
   );
 
   const [nodes, loaded, loadError] = useK8sWatchResource<IoK8sApiCoreV1Node[]>({
@@ -60,7 +60,7 @@ const DedicatedResourcesModal: React.FC<DedicatedResourcesModalProps> = ({
     );
     return {
       qualifiedNodes: filteredNodes,
-      hasNodes: !!filteredNodes?.length,
+      hasNodes: Boolean(filteredNodes?.length),
     };
   }, [nodes]);
 

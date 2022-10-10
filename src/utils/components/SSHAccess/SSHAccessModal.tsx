@@ -29,7 +29,7 @@ const SSHAccessModal: React.FC<SSHAccessModalProps> = ({
   sshService,
 }) => {
   const { t } = useKubevirtTranslation();
-  const initiallyEnabled = !!sshService;
+  const initiallyEnabled = Boolean(sshService);
   const [isEnabled, setEnabled] = React.useState<boolean>(initiallyEnabled);
 
   const onSubmit = async () => {

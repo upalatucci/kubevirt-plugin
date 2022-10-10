@@ -51,13 +51,13 @@ const NodeCheckerAlert: React.FC<NodeCheckerAlertProps> = ({
     <Alert
       title={
         <>
-          {!!qualifiedNodesSize || !!prefferedQualifiedNodesSize ? (
+          {Boolean(qualifiedNodesSize) || Boolean(prefferedQualifiedNodesSize) ? (
             <>
               {t('{{matchingNodeText}} matching', {
                 matchingNodeText,
               })}
-              {!!qualifiedNodesSize &&
-                !!prefferedQualifiedNodesSize &&
+              {Boolean(qualifiedNodesSize) &&
+                Boolean(prefferedQualifiedNodesSize) &&
                 t(', {{prefferedQualifiedNodesSize}} matching preferred Nodes found', {
                   prefferedQualifiedNodesSize:
                     qualifiedNodesSize < prefferedQualifiedNodesSize

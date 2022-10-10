@@ -39,8 +39,8 @@ const CPUUtil: React.FC<CPUUtilProps> = ({ vmi, pods }) => {
     namespace: vmi?.metadata?.namespace,
   });
 
-  const cpuUsage = +dataCPUUsage?.data?.result?.[0]?.value?.[1];
-  const cpuRequested = +dataCPURequested?.data?.result?.[0]?.value?.[1];
+  const cpuUsage = Number(dataCPUUsage?.data?.result?.[0]?.value?.[1]);
+  const cpuRequested = Number(dataCPURequested?.data?.result?.[0]?.value?.[1]);
   const averageCPUUsage = (cpuUsage / cpuRequested) * 100;
   const isReady = !Number.isNaN(cpuUsage) && !Number.isNaN(cpuRequested);
 

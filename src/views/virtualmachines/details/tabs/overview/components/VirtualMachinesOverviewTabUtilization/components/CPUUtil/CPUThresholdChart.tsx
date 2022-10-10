@@ -62,11 +62,11 @@ const CPUThresholdChart: React.FC<CPUThresholdChartProps> = ({ timespan, vmi, po
   const cpuRequested = dataCPURequested?.data?.result?.[0]?.values;
 
   const chartData = cpuUsage?.map(([, item], index) => {
-    return { x: index, y: +item, name: 'CPU usage' };
+    return { x: index, y: Number(item), name: 'CPU usage' };
   });
 
   const thresholdData = cpuRequested?.map(([, item], index) => {
-    return { x: index, y: +item, name: 'CPU requested' };
+    return { x: index, y: Number(item), name: 'CPU requested' };
   });
 
   const isReady = !isEmpty(chartData) && !isEmpty(thresholdData);

@@ -21,7 +21,7 @@ const PrefferedAffinityWeightInput: React.FC<PrefferedAffinityWeightInputProps> 
   const [error, setError] = React.useState(false);
 
   const onChange = (value: string) => {
-    setFocusedAffinity({ ...focusedAffinity, weight: +value });
+    setFocusedAffinity({ ...focusedAffinity, weight: Number(value) });
   };
 
   React.useEffect(() => {

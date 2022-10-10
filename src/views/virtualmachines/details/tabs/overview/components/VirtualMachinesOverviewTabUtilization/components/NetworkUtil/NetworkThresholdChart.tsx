@@ -55,11 +55,11 @@ const NetworkThresholdChart: React.FC<NetworkThresholdChartProps> = ({ timespan,
   const networkInData = networkIn?.data?.result?.[0]?.values;
   const networkOutData = networkOut?.data?.result?.[0]?.values;
   const chartDataIn = networkInData?.map(([, item], index) => {
-    return { x: index, y: +item, name: 'Network In' };
+    return { x: index, y: Number(item), name: 'Network In' };
   });
 
   const chartDataOut = networkOutData?.map(([, item], index) => {
-    return { x: index, y: +item, name: 'Network Out' };
+    return { x: index, y: Number(item), name: 'Network Out' };
   });
 
   const isReady = !isEmpty(chartDataOut) || !isEmpty(chartDataIn);

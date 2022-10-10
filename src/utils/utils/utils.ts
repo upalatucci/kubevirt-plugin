@@ -20,7 +20,7 @@ export const isString = (val) => val !== null && typeof val === 'string';
 export const getSSHNodePort = (sshService: IoK8sApiCoreV1Service) =>
   sshService?.spec?.ports?.find((port) => parseInt(port.targetPort, 10) === 22)?.nodePort;
 
-export const isTemplateParameter = (value: string): boolean => !!/^\${[A-z0-9_]+}$/.test(value);
+export const isTemplateParameter = (value: string): boolean => Boolean(/^\${[A-z0-9_]+}$/.test(value));
 
 export const getRandomChars = (len = 6): string => {
   return Math.random()

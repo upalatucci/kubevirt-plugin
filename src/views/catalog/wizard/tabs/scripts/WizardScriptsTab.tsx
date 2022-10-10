@@ -154,8 +154,8 @@ const WizardScriptsTab: WizardTab = ({ vm, updateVM, tabsData, updateTabsData })
               title={t('Sysprep')}
               description={
                 <SysprepDescription
-                  hasAutoUnattend={!!autoUnattend}
-                  hasUnattend={!!unattend}
+                  hasAutoUnattend={Boolean(autoUnattend)}
+                  hasUnattend={Boolean(unattend)}
                   selectedSysprepName={selectedSysprep}
                 />
               }

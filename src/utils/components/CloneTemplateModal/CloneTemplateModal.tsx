@@ -39,7 +39,7 @@ const CloneTemplateModal: React.FC<CloneTemplateModalProps> = ({
     `${obj?.metadata?.name}-${getRandomChars(9)}`,
   );
   const templateVMPVC = getTemplateBootSourcePVC(obj);
-  const clonableStorage = !!templateVMPVC;
+  const clonableStorage = Boolean(templateVMPVC);
   const [pvcName, setPVCName] = React.useState(`${templateVMPVC?.name}-clone`);
   const [templateProvider, setTemplateProvider] = React.useState('');
   const [selectedProject, setSelectedProject] = React.useState(obj?.metadata?.namespace);

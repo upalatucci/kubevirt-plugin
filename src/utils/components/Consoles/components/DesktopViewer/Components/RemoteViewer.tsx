@@ -62,13 +62,13 @@ const RemoteViewer: React.FC<RemoteViewerProps> = ({
         >
           {textConnectWithRemoteViewer || t('Launch Remote Viewer')}
         </Button>
-        {!!rdp && (
+        {Boolean(rdp) && (
           <Button onClick={onClickRDP} className="pf-c-console__remote-viewer-launch-rdp">
             {textConnectWithRDP || t('Launch Remote Desktop')}
           </Button>
         )}
       </div>
-      {!!console && (
+      {Boolean(console) && (
         <ExpandableSection
           toggleText={textMoreInfo || t('Remote Viewer Details')}
           isExpanded={isExpandedDefault}
@@ -77,7 +77,7 @@ const RemoteViewer: React.FC<RemoteViewerProps> = ({
           <MoreInformationDefault textMoreInfoContent={textMoreInfoContent} />
         </ExpandableSection>
       )}
-      {!!rdp && (
+      {Boolean(rdp) && (
         <ExpandableSection
           toggleText={textMoreRDPInfo || t('Remote Desktop Details')}
           isExpanded={isExpandedRDP}

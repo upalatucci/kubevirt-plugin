@@ -27,7 +27,7 @@ const useDashboardActivities = () => {
     | ResolvedExtension<DynamicDashboardsOverviewResourceActivity>
   )[] = React.useMemo(
     () =>
-      dynamicResourceActivityExtensions?.filter((e) => !!models?.[e.properties.k8sResource.kind]),
+      dynamicResourceActivityExtensions?.filter((e) => Boolean(models?.[e.properties.k8sResource.kind])),
     [dynamicResourceActivityExtensions, models],
   );
 

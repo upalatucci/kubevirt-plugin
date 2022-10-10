@@ -13,7 +13,7 @@ export const useNodeLabelQualifier = <T extends IDLabel = IDLabel>(
   const [qualifiedNodes, setQualifiedNodes] = React.useState([]);
 
   React.useEffect(() => {
-    const filteredConstraints = constraints.filter(({ key }) => !!key);
+    const filteredConstraints = constraints.filter(({ key }) => Boolean(key));
     if (!isEmpty(filteredConstraints) && isNodesLoaded) {
       const suitableNodes = [];
       (nodes || [])?.forEach((node) => {

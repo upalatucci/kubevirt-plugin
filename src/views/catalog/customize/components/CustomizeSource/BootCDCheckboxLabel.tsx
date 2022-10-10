@@ -18,7 +18,7 @@ const BootCDCheckbox: React.FC<BootCDCheckboxProps> = ({ cdSource, onChange }) =
       <Flex>
         <FlexItem>
           <Checkbox
-            isChecked={!!cdSource}
+            isChecked={Boolean(cdSource)}
             onChange={onChange}
             label={t('Boot from CD')}
             id="boot-cd"

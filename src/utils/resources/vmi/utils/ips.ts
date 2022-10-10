@@ -8,7 +8,7 @@ import { V1VirtualMachineInstance } from '@kubevirt-ui/kubevirt-api/kubevirt';
  * @returns {string[]}
  */
 export const getVMIIPAddresses = (vmi: V1VirtualMachineInstance): string[] => {
-  const namedInterfaces = vmi?.status?.interfaces?.filter((iface) => !!iface.name) || [];
+  const namedInterfaces = vmi?.status?.interfaces?.filter((iface) => Boolean(iface.name)) || [];
   const ipAddresses = namedInterfaces?.flatMap((iface) => [
     iface?.ipAddress,
     ...(iface?.ipAddresses || []),

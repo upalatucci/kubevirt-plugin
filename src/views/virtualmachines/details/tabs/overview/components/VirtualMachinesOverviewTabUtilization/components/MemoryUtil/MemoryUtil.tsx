@@ -34,7 +34,7 @@ const MemoryUtil: React.FC<MemoryUtilProps> = ({ vmi }) => {
     namespace: vmi?.metadata?.namespace,
   });
 
-  const memoryUsed = +data?.data?.result?.[0]?.value?.[1];
+  const memoryUsed = Number(data?.data?.result?.[0]?.value?.[1]);
   const memoryAvailableBytes = xbytes.parseSize(`${memory?.size} ${memory?.unit}B`);
   const percentageMemoryUsed = (memoryUsed / memoryAvailableBytes) * 100;
   const isReady = !isEmpty(memory) && !Number.isNaN(percentageMemoryUsed);

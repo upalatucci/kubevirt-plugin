@@ -224,7 +224,7 @@ export const has = (object, key) => {
   const keyParts = key.split('.');
 
   return (
-    !!object &&
+    Boolean(object) &&
     (keyParts.length > 1
       ? has(object[key.split('.')[0]], keyParts.slice(1).join('.'))
       : Object.prototype.hasOwnProperty.call(object, key))

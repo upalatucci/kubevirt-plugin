@@ -16,7 +16,7 @@ const SettingsTab: React.FC = () => {
       <Card className="settings-tab__card">
         <Tabs
           activeKey={activeTab}
-          onSelect={(_, activeKey) => setActiveTab(+activeKey)}
+          onSelect={(_, activeKey) => setActiveTab(Number(activeKey))}
           isVertical
           className="settings-tab__menu"
         >

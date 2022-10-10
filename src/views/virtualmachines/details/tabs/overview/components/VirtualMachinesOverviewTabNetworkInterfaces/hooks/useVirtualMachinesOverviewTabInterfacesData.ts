@@ -20,7 +20,7 @@ const useVirtualMachinesOverviewTabInterfacesData: UseVirtualMachinesOverviewTab
   });
   const networks = getNetworks(vm);
   const interfaces = getInterfaces(vm);
-  const interfacesIPs = vmi?.status?.interfaces?.filter((iface) => !!iface.name) || [];
+  const interfacesIPs = vmi?.status?.interfaces?.filter((iface) => Boolean(iface.name)) || [];
 
   const networkInterfacesData = interfaces?.map((iface) => {
     const network = networks?.find((net) => net.name === iface.name);
