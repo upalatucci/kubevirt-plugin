@@ -52,7 +52,7 @@ const NetworkInterfaceActions: React.FC<NetworkInterfaceActionsProps> = ({
     setIsDropdownOpen(false);
   };
 
-  const onDelete = React.useCallback( () => {
+  const onDelete = React.useCallback(() => {
     const updatedTemplate = produce(template, (draftTemplate) => {
       const vm = getTemplateVirtualMachineObject(template);
       vm.spec.template.spec.networks = vm.spec.template.spec.networks.filter(

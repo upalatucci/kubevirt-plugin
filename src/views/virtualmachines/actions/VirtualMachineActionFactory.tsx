@@ -101,9 +101,11 @@ export const VirtualMachineActionFactory = {
       id: 'vm-action-migrate',
       disabled:
         vm?.status?.printableStatus !== Running ||
-        Boolean(vm?.status?.conditions?.find(
-          ({ type, status }) => type === 'LiveMigratable' && status === 'False',
-        )),
+        Boolean(
+          vm?.status?.conditions?.find(
+            ({ type, status }) => type === 'LiveMigratable' && status === 'False',
+          ),
+        ),
       label: t('Migrate'),
       cta: () => migrateVM(vm),
       accessReview: asAccessReview(VirtualMachineModel, vm, 'patch'),
