@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { IoK8sApiCoreV1Service } from '@kubevirt-ui/kubevirt-api/kubernetes';
 import { V1VirtualMachine, V1VirtualMachineInstance } from '@kubevirt-ui/kubevirt-api/kubevirt';
-import { CLOUD_INIT_MISSING_USERNAME } from '@kubevirt-utils/components/Consoles/utils/constants';
 import Loading from '@kubevirt-utils/components/Loading/Loading';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import {
@@ -15,14 +14,14 @@ import {
   Popover,
   Stack,
   StackItem,
-  Tooltip,
 } from '@patternfly/react-core';
 import { HelpIcon } from '@patternfly/react-icons';
 
+import { SERVICE_TYPES } from '../constants';
 import useSSHCommand from '../useSSHCommand';
 import { createSSHService, deleteSSHService } from '../utils';
 
-import SSHCheckbox from './SSHCheckbox';
+import SSHServiceSelect from './SSHServiceSelect';
 
 type SSHCommandProps = {
   vmi: V1VirtualMachineInstance;
@@ -39,21 +38,35 @@ const SSHCommand: React.FC<SSHCommandProps> = ({
 }) => {
   const { t } = useKubevirtTranslation();
   const [sshService, setSSHService] = useState<IoK8sApiCoreV1Service>();
-  const { command, user, sshServiceRunning } = useSSHCommand(vm, sshService);
+  const { command, sshServiceRunning } = useSSHCommand(vm, sshService);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error>();
 
-  const onSSHChange = (enableSSH: boolean) => {
+  const onSSHChange = async (newServiceType: SERVICE_TYPES | undefined) => {
     setLoading(true);
+    const servicesPromises = [];
 
-    const request = enableSSH
-      ? createSSHService(vm, vmi).then(setSSHService)
-      : deleteSSHService(sshService).then(() => setSSHService(undefined));
+    try {
+      servicesPromises.push(
+        sshService ? deleteSSHService(sshService) : new Promise<void>((resolve) => resolve()),
+      );
+      servicesPromises.push(
+        !newServiceType || newServiceType === SERVICE_TYPES.NONE
+          ? new Promise<void>((resolve) => resolve())
+          : createSSHService(vm, vmi, newServiceType),
+      );
 
-    request.catch(setError).finally(() => setLoading(false));
+      await Promise.allSettled(servicesPromises).then(([deleteResult, createResult]) => {
+        if (deleteResult.status === 'rejected') throw deleteResult.reason;
+        if (createResult.status === 'rejected') throw createResult.reason;
+        setSSHService(createResult.value);
+      });
+    } catch (apiError) {
+      setError(apiError);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const hasNoUsername = user === CLOUD_INIT_MISSING_USERNAME;
 
   useEffect(() => {
     setSSHService(initialSSHService);
@@ -63,7 +76,7 @@ const SSHCommand: React.FC<SSHCommandProps> = ({
   return (
     <DescriptionListGroup>
       <DescriptionListTerm className="pf-u-font-size-xs">
-        {t('SSH over NodePort')}{' '}
+        {t('SSH service type')}{' '}
         <Popover
           aria-label={'Help'}
           position="right"
@@ -88,28 +101,29 @@ const SSHCommand: React.FC<SSHCommandProps> = ({
 
       <DescriptionListDescription>
         <Stack hasGutter>
-          <StackItem>
-            <Tooltip content={CLOUD_INIT_MISSING_USERNAME} isVisible={hasNoUsername}>
-              <SSHCheckbox
-                sshServiceRunning={Boolean(sshService)}
-                setSSHServiceRunning={onSSHChange}
-                isDisabled={loading || hasNoUsername}
-              />
-            </Tooltip>
-          </StackItem>
           {sshServiceLoaded && !loading ? (
-            sshServiceRunning && (
+            <>
               <StackItem>
-                <ClipboardCopy
-                  isReadOnly
-                  data-test="ssh-command-copy"
-                  clickTip={t('Copied')}
-                  hoverTip={t('Copy to clipboard')}
-                >
-                  {command}
-                </ClipboardCopy>
+                <SSHServiceSelect
+                  sshService={sshService}
+                  sshServiceLoaded={sshServiceLoaded}
+                  onSSHChange={onSSHChange}
+                />
               </StackItem>
-            )
+
+              {sshServiceRunning && (
+                <StackItem>
+                  <ClipboardCopy
+                    isReadOnly
+                    data-test="ssh-command-copy"
+                    clickTip={t('Copied')}
+                    hoverTip={t('Copy to clipboard')}
+                  >
+                    {command}
+                  </ClipboardCopy>
+                </StackItem>
+              )}
+            </>
           ) : (
             <Loading />
           )}
