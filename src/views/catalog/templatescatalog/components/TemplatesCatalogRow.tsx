@@ -26,13 +26,19 @@ export const TemplatesCatalogRow: React.FC<
       onTemplateClick: (template: V1Template) => void;
       availableTemplatesUID: Set<string>;
       availableDatasources: Record<string, V1beta1DataSource>;
+      duplicateDisplayNames: Set<string>;
     }
   >
 > = React.memo(
   ({
     obj,
     activeColumnIDs,
-    rowData: { onTemplateClick, availableTemplatesUID, availableDatasources },
+    rowData: {
+      onTemplateClick,
+      availableTemplatesUID,
+      availableDatasources,
+      duplicateDisplayNames,
+    },
   }) => {
     const { t } = useKubevirtTranslation();
     const bootSource = getTemplateBootSourceType(obj);
@@ -43,12 +49,15 @@ export const TemplatesCatalogRow: React.FC<
         `${bootSource?.source?.sourceRef?.namespace}-${bootSource?.source?.sourceRef?.name}`
       ];
 
+    const templateName = getTemplateName(obj);
+
     return (
       <>
         <TableData id="name" activeColumnIDs={activeColumnIDs} className="pf-m-width-20">
           <img src={getTemplateOSIcon(obj)} alt="" className="vm-catalog-row-icon" />
           <Button variant="link" isInline onClick={() => onTemplateClick(obj)}>
-            {getTemplateName(obj)}
+            {templateName}{' '}
+            {duplicateDisplayNames?.has(templateName) ? `- ${obj?.metadata?.name}` : ''}
           </Button>
         </TableData>
         <TableData id="workload" activeColumnIDs={activeColumnIDs} className="pf-m-width-10">

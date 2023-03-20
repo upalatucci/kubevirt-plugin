@@ -7,6 +7,7 @@ import { Gallery, StackItem } from '@patternfly/react-core';
 
 import useTemplatesCatalogColumns from '../hooks/useTemplatesCatalogColumns';
 import { TemplateFilters } from '../hooks/useVmTemplatesFilters';
+import { findDuplicateDisplayNames } from '../utils/helpers';
 
 import { TemplatesCatalogRow } from './TemplatesCatalogRow';
 import { TemplateTile } from './TemplatesCatalogTile';
@@ -40,6 +41,8 @@ export const TemplatesCatalogItems: VFC<TemplatesCatalogItemsProps> = ({
     [templates],
   );
 
+  const duplicateDisplayNames = useMemo(() => findDuplicateDisplayNames(templates), [templates]);
+
   return filters?.isList ? (
     <div className="vm-catalog-table-container">
       <VirtualizedTable
@@ -49,7 +52,12 @@ export const TemplatesCatalogItems: VFC<TemplatesCatalogItemsProps> = ({
         loadError={null}
         columns={columns}
         Row={TemplatesCatalogRow}
-        rowData={{ onTemplateClick, availableTemplatesUID, availableDatasources }}
+        rowData={{
+          onTemplateClick,
+          availableTemplatesUID,
+          availableDatasources,
+          duplicateDisplayNames,
+        }}
       />
     </div>
   ) : (

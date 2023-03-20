@@ -46,3 +46,18 @@ export const filterTemplates = (templates: V1Template[], filters: TemplateFilter
 
       return aName?.localeCompare(bName);
     });
+
+export const findDuplicateDisplayNames = (templates: V1Template[]) => {
+  const uniqueNames = new Set<string>();
+  const duplicateNames = new Set<string>();
+  templates.forEach((template) => {
+    const name = getTemplateName(template);
+    if (uniqueNames.has(name)) {
+      duplicateNames.add(name);
+    }
+
+    uniqueNames.add(name);
+  });
+
+  return duplicateNames;
+};
