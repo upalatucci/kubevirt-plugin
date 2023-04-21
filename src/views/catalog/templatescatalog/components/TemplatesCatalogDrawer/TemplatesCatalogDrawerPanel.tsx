@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React, { FC, memo, useState } from 'react';
 
 import { WizardOverviewDisksTable } from '@catalog/wizard/tabs/overview/components/WizardOverviewDisksTable/WizardOverviewDisksTable';
 import { WizardOverviewNetworksTable } from '@catalog/wizard/tabs/overview/components/WizardOverviewNetworksTable/WizardOverviewNetworksTable';
 import { V1Template } from '@kubevirt-ui/kubevirt-api/console';
 import AdditionalResources from '@kubevirt-utils/components/AdditionalResources/AdditionalResources';
+import CPUMemoryModal from '@kubevirt-utils/components/CPUMemoryModal/CpuMemoryModal';
 import HardwareDevices from '@kubevirt-utils/components/HardwareDevices/HardwareDevices';
+import { useModal } from '@kubevirt-utils/components/ModalProvider/ModalProvider';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
-import { getTemplateFlavorData } from '@kubevirt-utils/resources/template/utils';
+import { getTemplateFlavorData, replaceTemplateVM } from '@kubevirt-utils/resources/template/utils';
 import { WORKLOADS_LABELS } from '@kubevirt-utils/resources/template/utils/constants';
 import {
   getTemplateDescription,
@@ -34,15 +36,17 @@ import {
   StackItem,
   Title,
 } from '@patternfly/react-core';
+import { PencilAltIcon } from '@patternfly/react-icons';
 import ExternalLinkSquareAltIcon from '@patternfly/react-icons/dist/esm/icons/external-link-square-alt-icon';
 
 type TemplatesCatalogDrawerPanelProps = {
   template: V1Template;
+  setEditableTemplate: (template: V1Template) => void;
 };
 
-const TemplateExpandableDescription: React.FC<{ description: string }> = ({ description }) => {
+const TemplateExpandableDescription: FC<{ description: string }> = ({ description }) => {
   const { t } = useKubevirtTranslation();
-  const [isExpanded, setIsExpanded] = React.useState(description?.length <= 120);
+  const [isExpanded, setIsExpanded] = useState(description?.length <= 120);
   return (
     <Stack className="template-catalog-drawer-description">
       <StackItem>
@@ -61,9 +65,10 @@ const TemplateExpandableDescription: React.FC<{ description: string }> = ({ desc
   );
 };
 
-export const TemplatesCatalogDrawerPanel: React.FC<TemplatesCatalogDrawerPanelProps> = React.memo(
-  ({ template }) => {
+export const TemplatesCatalogDrawerPanel: FC<TemplatesCatalogDrawerPanelProps> = memo(
+  ({ template, setEditableTemplate }) => {
     const { t } = useKubevirtTranslation();
+    const { createModal } = useModal();
 
     const notAvailable = t('N/A');
     const vmObject = getTemplateVirtualMachineObject(template);
@@ -137,12 +142,31 @@ export const TemplatesCatalogDrawerPanel: React.FC<TemplatesCatalogDrawerPanelPr
                   <GridItem span={6}>
                     <DescriptionList>
                       <DescriptionListGroup>
-                        <DescriptionListTerm>{t('CPU | Memory')}</DescriptionListTerm>
+                        <DescriptionListTerm> {t('CPU | Memory')}</DescriptionListTerm>
                         <DescriptionListDescription>
-                          {t('{{cpuCount}} CPU | {{memory}} Memory', {
-                            cpuCount,
-                            memory: readableSizeUnit(memory),
-                          })}
+                          <Button
+                            type="button"
+                            isInline
+                            onClick={() =>
+                              createModal(({ isOpen, onClose }) => (
+                                <CPUMemoryModal
+                                  vm={vmObject}
+                                  isOpen={isOpen}
+                                  onClose={onClose}
+                                  onSubmit={(updatedVM) => {
+                                    setEditableTemplate(replaceTemplateVM(template, updatedVM));
+                                  }}
+                                />
+                              ))
+                            }
+                            variant="link"
+                          >
+                            {t('{{cpuCount}} CPU | {{memory}} Memory', {
+                              cpuCount,
+                              memory: readableSizeUnit(memory),
+                            })}
+                            <PencilAltIcon className="co-icon-space-l pf-c-button-icon--plain" />
+                          </Button>
                         </DescriptionListDescription>
                       </DescriptionListGroup>
                       <DescriptionListGroup>

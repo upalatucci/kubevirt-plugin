@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { FC, useEffect } from 'react';
+import { useImmer } from 'use-immer';
 
 import { V1Template } from '@kubevirt-ui/kubevirt-api/console';
 import { getTemplateName } from '@kubevirt-utils/resources/template/utils/selectors';
@@ -19,14 +20,20 @@ type TemplatesCatalogDrawerProps = {
   onClose: () => void;
 };
 
-export const TemplatesCatalogDrawer: React.FC<TemplatesCatalogDrawerProps> = ({
+export const TemplatesCatalogDrawer: FC<TemplatesCatalogDrawerProps> = ({
   namespace,
   template,
   isOpen,
   onClose,
 }) => {
-  const templateName = getTemplateName(template);
-  const osIcon = getTemplateOSIcon(template);
+  const [editableTemplate, setEditableTemplate] = useImmer(template);
+
+  useEffect(() => {
+    setEditableTemplate(template);
+  }, [template, setEditableTemplate]);
+
+  const templateName = getTemplateName(editableTemplate);
+  const osIcon = getTemplateOSIcon(editableTemplate);
 
   return (
     <Modal
@@ -39,7 +46,7 @@ export const TemplatesCatalogDrawer: React.FC<TemplatesCatalogDrawerProps> = ({
         <CatalogItemHeader
           className="co-catalog-page__overlay-header"
           title={templateName}
-          vendor={template?.metadata?.name}
+          vendor={editableTemplate?.metadata?.name}
           iconImg={osIcon}
         />
       }
@@ -47,13 +54,16 @@ export const TemplatesCatalogDrawer: React.FC<TemplatesCatalogDrawerProps> = ({
         template && (
           <TemplatesCatalogDrawerFooter
             namespace={namespace}
-            template={template}
+            template={editableTemplate}
             onCancel={onClose}
           />
         )
       }
     >
-      <TemplatesCatalogDrawerPanel template={template} />
+      <TemplatesCatalogDrawerPanel
+        template={editableTemplate}
+        setEditableTemplate={setEditableTemplate}
+      />
     </Modal>
   );
 };

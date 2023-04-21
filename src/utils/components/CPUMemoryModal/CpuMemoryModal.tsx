@@ -34,7 +34,7 @@ type CPUMemoryModalProps = {
   vm: V1VirtualMachine;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (updatedVM: V1VirtualMachine) => Promise<V1VirtualMachine | void>;
+  onSubmit: (updatedVM: V1VirtualMachine) => Promise<V1VirtualMachine | void> | void;
   vmi?: V1VirtualMachineInstance;
 };
 
@@ -87,15 +87,22 @@ const CPUMemoryModal: React.FC<CPUMemoryModalProps> = ({ vm, isOpen, onClose, on
     setUpdateInProcess(true);
     setUpdateError(null);
 
-    onSubmit(updatedVirtualMachine)
-      .then(() => {
-        setUpdateInProcess(false);
-        onClose();
-      })
-      .catch((err) => {
-        setUpdateInProcess(false);
-        setUpdateError(err.message);
-      });
+    const submitReturn = onSubmit(updatedVirtualMachine);
+
+    if (submitReturn instanceof Promise) {
+      submitReturn
+        .then(() => {
+          setUpdateInProcess(false);
+          onClose();
+        })
+        .catch((err) => {
+          setUpdateInProcess(false);
+          setUpdateError(err.message);
+        });
+    } else {
+      setUpdateInProcess(false);
+      onClose();
+    }
   };
 
   return (
