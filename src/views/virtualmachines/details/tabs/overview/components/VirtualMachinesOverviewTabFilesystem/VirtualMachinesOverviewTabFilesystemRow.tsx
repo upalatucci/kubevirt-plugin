@@ -12,8 +12,8 @@ const VirtualMachinesOverviewTabFilesystemRow: FC<VirtualMachinesOverviewTabFile
   activeColumnIDs,
   obj,
 }) => {
-  const totalBytes = formatBytes(String(obj?.totalBytes));
-  const usedBytes = formatBytes(String(obj?.usedBytes));
+  const totalBytes = formatBytes(String(obj?.totalBytes), null, true);
+  const usedBytes = formatBytes(String(obj?.usedBytes), null, true);
   return (
     <>
       <TableData activeColumnIDs={activeColumnIDs} id="diskName">

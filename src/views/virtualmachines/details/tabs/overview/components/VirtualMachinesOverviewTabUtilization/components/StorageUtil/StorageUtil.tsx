@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import xbytes from 'xbytes';
 
 import { V1VirtualMachineInstance } from '@kubevirt-ui/kubevirt-api/kubevirt';
 import ComponentReady from '@kubevirt-utils/components/Charts/ComponentReady/ComponentReady';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
+import { formatBytes } from '@kubevirt-utils/resources/vm/utils/disk/size';
 import { useGuestOS } from '@kubevirt-utils/resources/vmi';
 import { removeDuplicatesByName } from '@kubevirt-utils/utils/utils';
 import { ChartDonutUtilization, ChartLabel } from '@patternfly/react-charts';
@@ -36,12 +36,10 @@ const StorageUtil: FC<StorageUtilProps> = ({ vmi }) => {
       <div className="util-upper">
         <div className="util-title">{t('Storage')}</div>
         <div className="util-summary" data-test-id="util-summary-storage">
-          <div className="util-summary-value">
-            {xbytes(usedBytes || 0, { fixed: 2, iec: true })}
-          </div>
+          <div className="util-summary-value">{formatBytes(String(usedBytes), null, true)}</div>
           <div className="util-summary-text text-muted">
             <div>{t('Used of ')}</div>
-            <div>{xbytes(totalBytes || 0, { fixed: 2, iec: true })}</div>
+            <div>{formatBytes(String(totalBytes), null, true)}</div>
           </div>
         </div>
       </div>
@@ -53,7 +51,7 @@ const StorageUtil: FC<StorageUtilProps> = ({ vmi }) => {
               y: usedPercentage,
             }}
             labels={({ datum }) =>
-              datum.x ? `${datum.x}: ${xbytes(usedBytes || 0, { fixed: 2, iec: true })}` : null
+              datum.x ? `${datum.x}: ${formatBytes(String(usedBytes), null, true)}` : null
             }
             animate
             constrainToVisibleArea

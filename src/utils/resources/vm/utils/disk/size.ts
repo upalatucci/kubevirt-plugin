@@ -24,9 +24,10 @@ export const hasSizeUnit = (rawSize: string): string => {
  * function that recieves a raw size and returns formatted size
  * @param {string} rawSize - size to convert
  * @param {string} unit - unit
+ * @param {boolean} fromSI - flag to specify if rawSize is already expressed in SI
  * @returns formatted bytes
  */
-export const formatBytes = (rawSize: string, unit?: string): string => {
+export const formatBytes = (rawSize: string, unit?: string, fromSI = false): string => {
   if (!rawSize) {
     return '-';
   }
@@ -35,8 +36,10 @@ export const formatBytes = (rawSize: string, unit?: string): string => {
   const sizeUnits = ['', 'Ki', 'Mi', 'Gi', 'Ti'];
   let unitIndex = (sizeUnit && sizeUnits.findIndex((sUnit) => sUnit === sizeUnit)) || 0;
   let convertedSize = size;
-  while (convertedSize >= 1024) {
-    convertedSize = convertedSize / 1024;
+
+  const multiplier = fromSI ? 1000 : 1024;
+  while (convertedSize >= multiplier) {
+    convertedSize = convertedSize / multiplier;
     ++unitIndex;
   }
 
