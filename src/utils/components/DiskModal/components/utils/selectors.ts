@@ -24,3 +24,9 @@ export const getErrorSnapshotNamespace = (errors: FieldErrorsImpl<V1DiskFormStat
 
 export const getDataVolumeTemplateSize = (diskState: V1DiskFormState): string =>
   diskState.dataVolumeTemplate?.spec?.storage?.resources?.requests?.storage;
+
+export const getErrorDataSourceName = (errors: FieldErrorsImpl<V1DiskFormState>): FieldError =>
+  errors?.dataVolumeTemplate?.spec?.sourceRef.name;
+
+export const getErrorDataSourceNamespace = (errors: FieldErrorsImpl<V1DiskFormState>): FieldError =>
+  errors?.dataVolumeTemplate?.spec?.sourceRef.namespace;
