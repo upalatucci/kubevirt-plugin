@@ -228,6 +228,7 @@
   "Cancelling upload": "Cancelling upload",
   "Cannot cancel migration for \"{{ status }}\" status": "Cannot cancel migration for \"{{ status }}\" status",
   "Cannot update": "Cannot update",
+  "Cannot upload to registry a running VirtualMachine's disk": "Cannot upload to registry a running VirtualMachine's disk",
   "Catalog": "Catalog",
   "CatalogSource not found": "CatalogSource not found",
   "Category": "Category",

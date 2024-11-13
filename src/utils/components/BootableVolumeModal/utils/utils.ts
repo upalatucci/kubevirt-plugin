@@ -24,6 +24,7 @@ import { k8sCreate, k8sDelete } from '@openshift-console/dynamic-plugin-sdk';
 import {
   AddBootableVolumeState,
   DROPDOWN_FORM_SELECTION,
+  emptyDataSource,
   emptySourceDataVolume,
   initialDataImportCron,
 } from './constants';
@@ -299,4 +300,25 @@ export const createDataSourceWithImportCron: CreateDataSourceWithImportCronType 
   });
 
   return createdDataSource;
+};
+
+export const createBootableVolumeFromDisk = async (
+  bootableVolumeSource: AddBootableVolumeState,
+  applyStorageProfileSettings: boolean,
+  claimPropertySets: ClaimPropertySets,
+) => {
+  const dataSource = produce(emptyDataSource, (draftDataSource) => {
+    draftDataSource.metadata.name = bootableVolumeSource.bootableVolumeName;
+    draftDataSource.metadata.namespace = bootableVolumeSource.bootableVolumeNamespace;
+
+    draftDataSource.metadata.labels = bootableVolumeSource.labels;
+  });
+
+  return createPVCBootableVolume(
+    bootableVolumeSource,
+    bootableVolumeSource.bootableVolumeNamespace,
+    applyStorageProfileSettings,
+    claimPropertySets,
+    dataSource,
+  );
 };

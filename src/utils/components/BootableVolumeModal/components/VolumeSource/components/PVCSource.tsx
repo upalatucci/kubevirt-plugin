@@ -4,7 +4,7 @@ import xbytes from 'xbytes';
 import {
   AddBootableVolumeState,
   SetBootableVolumeFieldType,
-} from '@kubevirt-utils/components/AddBootableVolumeModal/utils/constants';
+} from '@kubevirt-utils/components/BootableVolumeModal/utils/constants';
 import { removeByteSuffix } from '@kubevirt-utils/components/CapacityInput/utils';
 import HelpTextIcon from '@kubevirt-utils/components/HelpTextIcon/HelpTextIcon';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';

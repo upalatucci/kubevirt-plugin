@@ -3,7 +3,7 @@ import {
   INSTANCETYPE_CLASS_DISPLAY_NAME,
   INSTANCETYPE_DESCRIPTION_ANNOTATION,
   REDHAT_COM,
-} from '@kubevirt-utils/components/AddBootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/constants';
+} from '@kubevirt-utils/components/BootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/constants';
 import { VENDOR_LABEL } from '@kubevirt-utils/constants/constants';
 import { t } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { getAnnotation, getLabel } from '@kubevirt-utils/resources/shared';

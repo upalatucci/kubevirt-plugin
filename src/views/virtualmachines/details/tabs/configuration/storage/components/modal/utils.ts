@@ -5,8 +5,8 @@ import { V1VirtualMachine } from '@kubevirt-ui/kubevirt-api/kubevirt';
 import {
   AddBootableVolumeState,
   emptyDataSource,
-} from '@kubevirt-utils/components/AddBootableVolumeModal/utils/constants';
-import { createPVCBootableVolume } from '@kubevirt-utils/components/AddBootableVolumeModal/utils/utils';
+} from '@kubevirt-utils/components/BootableVolumeModal/utils/constants';
+import { createPVCBootableVolume } from '@kubevirt-utils/components/BootableVolumeModal/utils/utils';
 import { getPreferenceMatcher } from '@kubevirt-utils/resources/vm';
 import { DiskRowDataLayout } from '@kubevirt-utils/resources/vm/utils/disk/constants';
 import { ClaimPropertySets } from '@kubevirt-utils/types/storage';

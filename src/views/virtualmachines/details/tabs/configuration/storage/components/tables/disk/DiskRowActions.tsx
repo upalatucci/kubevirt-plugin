@@ -8,14 +8,20 @@ import { useModal } from '@kubevirt-utils/components/ModalProvider/ModalProvider
 import KebabToggle from '@kubevirt-utils/components/toggles/KebabToggle';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { getName } from '@kubevirt-utils/resources/shared';
-import { getDataVolumeTemplates, getDisks, getVolumes } from '@kubevirt-utils/resources/vm';
+import {
+  getDataVolumeTemplates,
+  getDisks,
+  getInstanceTypeMatcher,
+  getPreferenceMatcher,
+  getVolumes,
+} from '@kubevirt-utils/resources/vm';
 import { DiskRowDataLayout } from '@kubevirt-utils/resources/vm/utils/disk/constants';
 import { getContentScrollableElement } from '@kubevirt-utils/utils/utils';
 import { ButtonVariant, Dropdown, DropdownItem, DropdownList } from '@patternfly/react-core';
 import { updateDisks } from '@virtualmachines/details/tabs/configuration/details/utils/utils';
 import { isRunning } from '@virtualmachines/utils';
 
-import CreateBootableVolumeModal from '../../modal/CreateBootableVolumeModal';
+import CreateBootableVolumeModal from '../../../../../../../../../utils/components/BootableVolumeModal/CreateBootableVolumeModal';
 import DeleteDiskModal from '../../modal/DeleteDiskModal';
 import DetachModal from '../../modal/DetachModal';
 import MakePersistentModal from '../../modal/MakePersistentModal';
@@ -114,7 +120,14 @@ const DiskRowActions: FC<DiskRowActionsProps> = ({
 
   const createBootableVolume = () => {
     createModal(({ isOpen, onClose }) => (
-      <CreateBootableVolumeModal diskObj={obj} isOpen={isOpen} onClose={onClose} vm={vm} />
+      <CreateBootableVolumeModal
+        initialInstanceType={getInstanceTypeMatcher(vm)?.name}
+        initialPreference={getPreferenceMatcher(vm)?.name}
+        isOpen={isOpen}
+        onClose={onClose}
+        pvcName={obj?.source}
+        pvcNamespace={obj?.namespace}
+      />
     ));
   };
 
@@ -140,7 +153,10 @@ const DiskRowActions: FC<DiskRowActionsProps> = ({
     >
       <DropdownList>
         <DropdownItem
-          isDisabled={!isPVCSource(obj)}
+          description={
+            isVMRunning && t("Cannot upload to registry a running VirtualMachine's disk")
+          }
+          isDisabled={!isPVCSource(obj) || isVMRunning}
           key="disk-export"
           onClick={() => onModalOpen(createExportModal)}
         >

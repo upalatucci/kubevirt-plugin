@@ -5,7 +5,7 @@ import UserProvidedInstanceTypesList from '@catalog/CreateFromInstanceTypes/comp
 import { getUserProvidedInstanceTypes } from '@catalog/CreateFromInstanceTypes/components/SelectInstanceTypeSection/components/UserProvidedInstanceTypeList/utils/utils';
 import { useInstanceTypeVMStore } from '@catalog/CreateFromInstanceTypes/state/useInstanceTypeVMStore';
 import { UseInstanceTypeAndPreferencesValues } from '@catalog/CreateFromInstanceTypes/state/utils/types';
-import { getInstanceTypeMenuItems } from '@kubevirt-utils/components/AddBootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/utils';
+import { getInstanceTypeMenuItems } from '@kubevirt-utils/components/BootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/utils';
 import Loading from '@kubevirt-utils/components/Loading/Loading';
 import { Tab, Tabs } from '@patternfly/react-core';
 

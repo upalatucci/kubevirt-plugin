@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction, useMemo, useState } from 'react';
 
 import { InstanceTypes } from '@catalog/CreateFromInstanceTypes/state/utils/types';
 import { VirtualMachineInstancetypeModelGroupVersionKind } from '@kubevirt-ui/kubevirt-api/console';
-import { isRedHatInstanceType } from '@kubevirt-utils/components/AddBootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/utils';
+import { isRedHatInstanceType } from '@kubevirt-utils/components/BootableVolumeModal/components/VolumeMetadata/components/InstanceTypeDrilldownSelect/utils/utils';
 import { useKubevirtTranslation } from '@kubevirt-utils/hooks/useKubevirtTranslation';
 import { VirtualMachineClusterInstancetypeModelGroupVersionKind } from '@kubevirt-utils/models';
 import { getName } from '@kubevirt-utils/resources/shared';

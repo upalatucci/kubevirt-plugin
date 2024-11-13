@@ -8,8 +8,8 @@ import {
 import DataSourceModel from '@kubevirt-ui/kubevirt-api/console/models/DataSourceModel';
 import { VirtualMachineClusterInstancetypeModelGroupVersionKind } from '@kubevirt-ui/kubevirt-api/console/models/VirtualMachineClusterInstancetypeModel';
 import { V1beta1DataSource } from '@kubevirt-ui/kubevirt-api/containerized-data-importer/models';
-import PreferencePopoverContent from '@kubevirt-utils/components/AddBootableVolumeModal/components/VolumeMetadata/components/PreferenceSelect/PreferencePopoverContent';
 import { AnnotationsModal } from '@kubevirt-utils/components/AnnotationsModal/AnnotationsModal';
+import PreferencePopoverContent from '@kubevirt-utils/components/BootableVolumeModal/components/VolumeMetadata/components/PreferenceSelect/PreferencePopoverContent';
 import { LabelsModal } from '@kubevirt-utils/components/LabelsModal/LabelsModal';
 import MetadataLabels from '@kubevirt-utils/components/MetadataLabels/MetadataLabels';
 import { useModal } from '@kubevirt-utils/components/ModalProvider/ModalProvider';
