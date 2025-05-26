@@ -64,11 +64,7 @@ const VirtualMachineRowLayout: FC<
   const [actions] = useVirtualMachineActionsProvider(obj, vmim, isSingleNodeCluster);
   return (
     <>
-      <TableData
-        activeColumnIDs={activeColumnIDs}
-        className="selection-column vm-column"
-        id="check"
-      >
+      <TableData activeColumnIDs={activeColumnIDs} className="selection-column vm-column" id="">
         <Checkbox
           id={`select-${obj?.metadata?.uid}`}
           isChecked={selected}
