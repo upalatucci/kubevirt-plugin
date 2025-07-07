@@ -1,8 +1,7 @@
 import { EncodedExtension } from '@openshift/dynamic-plugin-sdk-webpack';
 import { StandaloneRoutePage } from '@openshift-console/dynamic-plugin-sdk';
 import type { ConsolePluginBuildMetadata } from '@openshift-console/dynamic-plugin-sdk-webpack';
-
-//import { FLEET_STANDALONE_CONSOLE_PATH } from '../utils/components/Consoles/FleetConsoleStandAlone';
+import { REQUIRED_PROVIDER_FLAG } from '@stolostron/multicluster-sdk/lib/api/constants';
 
 export const exposedModules: ConsolePluginBuildMetadata['exposedModules'] = {
   ConsoleStandAlone: './utils/components/Consoles/ConsoleStandAlone.tsx',
@@ -12,7 +11,7 @@ export const exposedModules: ConsolePluginBuildMetadata['exposedModules'] = {
 export const extensions: EncodedExtension[] = [
   {
     flags: {
-      required: ['KUBEVIRT_DYNAMIC_ACM'],
+      required: [REQUIRED_PROVIDER_FLAG],
     },
     properties: {
       component: { $codeRef: 'ConsoleStandAlone' },
@@ -24,7 +23,7 @@ export const extensions: EncodedExtension[] = [
 
   {
     flags: {
-      required: ['KUBEVIRT_DYNAMIC_ACM'],
+      required: [REQUIRED_PROVIDER_FLAG],
     },
     properties: {
       component: {
