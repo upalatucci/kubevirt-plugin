@@ -4,7 +4,7 @@ import AlertsCard from '@kubevirt-utils/components/AlertsCard/AlertsCard';
 import { useVMIAndPodsForVM } from '@kubevirt-utils/resources/vm';
 import { useGuestOS } from '@kubevirt-utils/resources/vmi';
 import { Grid, GridItem, PageSection } from '@patternfly/react-core';
-import { useIsFleetSupported } from '@stolostron/multicluster-sdk';
+import { useIsFleetAvailable } from '@stolostron/multicluster-sdk';
 import { NavPageComponentProps } from '@virtualmachines/details/utils/types';
 
 import VirtualMachinesOverviewTabActiveUser from './components/VirtualMachinesOverviewTabActiveUser/VirtualMachinesOverviewTabActiveUser';
@@ -30,7 +30,7 @@ const VirtualMachinesOverviewTab: FC<NavPageComponentProps> = ({
     vm?.cluster,
   );
   const [guestAgentData, guestAgentDataLoaded, guestAgentDataLoadError] = useGuestOS(vmi);
-  const isFleetSupported = useIsFleetSupported();
+  const isFleetSupported = useIsFleetAvailable();
 
   return (
     <PageSection>
