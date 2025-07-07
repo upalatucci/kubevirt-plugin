@@ -37,10 +37,10 @@ export const extensions: EncodedExtension[] = [
   } as EncodedExtension<FeatureFlag>,
   {
     properties: {
-      handler: { $codeRef: 'kubevirtFlags.enableKubevirtDynamicACMFlag' },
+      handler: { $codeRef: 'kubevirtFlags.useKubevirtDynamicACMFlag' },
     },
-    type: 'console.flag',
-  } as EncodedExtension<FeatureFlag>,
+    type: 'console.flag/hookProvider',
+  } as EncodedExtension<FeatureFlagHookProvider>,
   {
     properties: { handler: { $codeRef: 'kubevirtFlags.useEnableKubevirtMenuFlags' } },
     type: 'console.flag/hookProvider',
