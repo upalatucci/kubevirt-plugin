@@ -7,7 +7,6 @@ import { V1beta1Condition, V1VirtualMachine } from '@kubevirt-ui/kubevirt-api/ku
 import { ALL_NAMESPACES_SESSION_KEY } from '@kubevirt-utils/hooks/constants';
 import { TemplateModel } from '@kubevirt-utils/models';
 import {
-  AccessReviewResourceAttributes,
   K8sModel,
   K8sResourceKind,
   K8sVerb,
@@ -198,6 +197,7 @@ export const asAccessReview = (
     return null;
   }
   return {
+    cluster: obj?.cluster,
     group: model.apiGroup,
     name: obj?.metadata?.name,
     namespace: obj?.metadata?.namespace,
