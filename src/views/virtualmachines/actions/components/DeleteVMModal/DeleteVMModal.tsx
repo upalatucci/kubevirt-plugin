@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
+import { useLocation, useNavigate, useParams } from 'react-router-dom-v5-compat';
 
 import DataVolumeModel from '@kubevirt-ui/kubevirt-api/console/models/DataVolumeModel';
 import VirtualMachineModel from '@kubevirt-ui/kubevirt-api/console/models/VirtualMachineModel';
@@ -33,12 +33,12 @@ import {
 import { DEFAULT_GRACE_PERIOD } from './constants';
 
 type DeleteVMModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen?: boolean;
+  onClose?: () => void;
   vm: V1VirtualMachine;
 };
 
-const DeleteVMModal: FC<DeleteVMModalProps> = ({ isOpen, onClose, vm }) => {
+const DeleteVMModal: FC<DeleteVMModalProps> = ({ isOpen = true, onClose, vm }) => {
   const { t } = useKubevirtTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,6 +47,10 @@ const DeleteVMModal: FC<DeleteVMModalProps> = ({ isOpen, onClose, vm }) => {
   const [gracePeriodSeconds, setGracePeriodSeconds] = useState<number>(
     vm?.spec?.template?.spec?.terminationGracePeriodSeconds || DEFAULT_GRACE_PERIOD,
   );
+
+  const params = useParams();
+  // eslint-disable-next-line no-console
+  console.log(params);
 
   const [volumesToSave, setVolumesToSave] = useState<
     (IoK8sApiCoreV1PersistentVolumeClaim | V1beta1DataVolume)[]

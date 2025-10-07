@@ -25,6 +25,7 @@ import { isEmpty } from '@kubevirt-utils/utils/utils';
 import { getCluster } from '@multicluster/helpers/selectors';
 import { kubevirtK8sPatch } from '@multicluster/k8sRequests';
 import { Patch } from '@openshift-console/dynamic-plugin-sdk';
+import { LaunchOverlay } from '@openshift-console/dynamic-plugin-sdk/lib/app/modal-support/OverlayProvider';
 import { CopyIcon } from '@patternfly/react-icons';
 import ComputeMigrationModal from '@virtualmachines/actions/components/VirtualMachineComputeMigration/ComputeMigrationModal';
 import VirtualMachineMigrateModal from '@virtualmachines/actions/components/VirtualMachineMigration/VirtualMachineMigrationModal';
@@ -130,16 +131,10 @@ export const VirtualMachineActionFactory = {
       label: t('Copy SSH command'),
     };
   },
-  delete: (
-    vm: V1VirtualMachine,
-    createModal: (modal: ModalComponent) => void,
-  ): ActionDropdownItemType => {
+  delete: (vm: V1VirtualMachine, launchOverlay: LaunchOverlay): ActionDropdownItemType => {
     return {
       accessReview: asAccessReview(VirtualMachineModel, vm, 'delete'),
-      cta: () =>
-        createModal(({ isOpen, onClose }) => (
-          <DeleteVMModal isOpen={isOpen} onClose={onClose} vm={vm} />
-        )),
+      cta: () => launchOverlay(DeleteVMModal, { vm }),
       description: isRunning(vm) && t('The VirtualMachine is running'),
       disabled: isRunning(vm) || isDeletionProtectionEnabled(vm),
       disabledTooltip:

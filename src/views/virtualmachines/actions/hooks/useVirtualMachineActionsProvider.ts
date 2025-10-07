@@ -16,7 +16,7 @@ import {
   FEATURE_KUBEVIRT_CROSS_CLUSTER_MIGRATION,
 } from '@multicluster/constants';
 import useACMExtensionActions from '@multicluster/hooks/useACMExtensionActions/useACMExtensionActions';
-import { useK8sModel } from '@openshift-console/dynamic-plugin-sdk';
+import { useK8sModel, useOverlay } from '@openshift-console/dynamic-plugin-sdk';
 
 import { printableVMStatus } from '../../utils';
 import { VirtualMachineActionFactory } from '../VirtualMachineActionFactory';
@@ -33,6 +33,8 @@ type UseVirtualMachineActionsProvider = (
 const useVirtualMachineActionsProvider: UseVirtualMachineActionsProvider = (vm, vmim) => {
   const { createModal } = useModal();
   const { featureEnabled: confirmVMActionsEnabled } = useFeatures(CONFIRM_VM_ACTIONS);
+
+  const launchOverlay = useOverlay();
 
   const virtctlCommand = getConsoleVirtctlCommand(vm);
 
@@ -114,13 +116,14 @@ const useVirtualMachineActionsProvider: UseVirtualMachineActionsProvider = (vm, 
       VirtualMachineActionFactory.copySSHCommand(vm, virtctlCommand),
       treeViewFoldersEnabled && VirtualMachineActionFactory.moveToFolder(vm, createModal),
       VirtualMachineActionFactory.editLabels(vm, createModal),
-      VirtualMachineActionFactory.delete(vm, createModal),
+      VirtualMachineActionFactory.delete(vm, launchOverlay),
       ...otherACMActions,
     ].filter(Boolean);
   }, [
     vm,
     vmim,
     createModal,
+    launchOverlay,
     currentStorageMigration,
     confirmVMActionsEnabled,
     virtctlCommand,
