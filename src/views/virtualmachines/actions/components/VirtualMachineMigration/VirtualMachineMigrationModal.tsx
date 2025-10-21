@@ -178,7 +178,7 @@ const VirtualMachineMigrateModal: FC<VirtualMachineMigrateModalProps> = ({
                     <Trans ns="plugin__kubevirt-plugin" t={t}>
                       Click{' '}
                       <Link
-                        onClick={onClose}
+                        onClick={onCloseMigrationModal}
                         to={`/k8s/ns/${DEFAULT_MIGRATION_NAMESPACE}/${modelToRef(MigPlanModel)}`}
                       >
                         {t('Storage Migrations')}

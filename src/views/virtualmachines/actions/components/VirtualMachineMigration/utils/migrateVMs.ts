@@ -70,19 +70,19 @@ export const migrateVMs = async (
   const persistentVolumes = namespacePVCs.map((pvc) => {
     const pvcOriginalName = getName(pvc);
 
-    const pvcNewName = `${pvcOriginalName.replace(/-mig-[\d\w]+/, '')}-mig-${suffix}`;
+    const pvcNewName = `${pvcOriginalName.replace(/-mig-[\d\w]+/gm, '')}-mig-${suffix}`;
 
     return {
       capacity: pvc.status.capacity?.storage,
       name: pvc.spec.volumeName,
       proposedCapacity: '0',
       pvc: {
-        accessModes: ['Auto'],
+        accessModes: ['auto'],
         hasReference: true,
         name: `${pvcOriginalName}:${pvcNewName}`,
         namespace: getNamespace(pvc),
         ownerType: 'VirtualMachine',
-        volumeMode: 'Auto',
+        volumeMode: 'auto',
       },
       selection: {
         action: selectedPVCs.find((selectedPVC) => getName(selectedPVC) === pvcOriginalName)
