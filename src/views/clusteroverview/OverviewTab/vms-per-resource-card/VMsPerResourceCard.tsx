@@ -38,6 +38,7 @@ const VMsPerResourceCard = () => {
             </FormPFSelect>
           ),
         }}
+        className="vms-per-resource-card__header"
       >
         <CardTitle>{t('VirtualMachines per resource')}</CardTitle>
       </CardHeader>
