@@ -9,6 +9,7 @@ import {
 } from '@kubevirt-ui-ext/kubevirt-api/kubevirt';
 import { InterfaceTypes } from '@kubevirt-utils/components/DiskModal/utils/types';
 import { getDisks, getVolumes } from '@kubevirt-utils/resources/vm';
+import { NO_DATA_DASH } from '@kubevirt-utils/resources/vm/utils/constants';
 import { isEmpty } from '@kubevirt-utils/utils/utils';
 import { isRunning } from '@virtualmachines/utils';
 
@@ -46,10 +47,11 @@ export const getDiskInterface = (disk: V1Disk): string => disk?.[getDiskDrive(di
  */
 export const getPrintableDiskInterface = (disk: V1Disk): string => {
   const diskInterface = getDiskInterface(disk);
+  if (!diskInterface) return NO_DATA_DASH;
   if (diskInterface === InterfaceTypes.SCSI || diskInterface === InterfaceTypes.SATA) {
     return diskInterface.toUpperCase();
   }
-  return diskInterface ?? '';
+  return diskInterface ?? NO_DATA_DASH;
 };
 
 export const isCDROMDisk = (disk: V1Disk): boolean => {
