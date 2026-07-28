@@ -1,4 +1,4 @@
-import { TFunction } from 'i18next';
+import { type TFunction } from 'i18next';
 
 import { OBSERVABILITY_CMA_NAMES } from '@kubevirt-utils/hooks/useVirtualizationObservabilityLink/constants';
 import {
@@ -9,7 +9,7 @@ import { getName } from '@kubevirt-utils/resources/shared';
 import { isEmpty } from '@kubevirt-utils/utils/utils';
 import useK8sWatchData from '@multicluster/hooks/useK8sWatchData';
 import useIsACMPage from '@multicluster/useIsACMPage';
-import { K8sResourceCommon } from '@openshift-console/dynamic-plugin-sdk';
+import { type K8sResourceCommon } from '@openshift-console/dynamic-plugin-sdk';
 import { useHubClusterName } from '@stolostron/multicluster-sdk';
 
 export const getMCONotInstalledTooltip = (t: TFunction): string =>
